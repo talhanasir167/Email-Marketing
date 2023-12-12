@@ -57,6 +57,9 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # Suppress logger output for asset requests.
+  config.action_mailer.default_url_options = { host: ENV['MAIL_HOST'] }
+  config.action_mailer.delivery_method = :smtp
+
   config.assets.quiet = true
 
   # Raises error for missing translations.
