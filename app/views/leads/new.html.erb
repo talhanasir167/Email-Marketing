@@ -1,0 +1,11 @@
+<div class="center-div">
+  <%= link_to "Create New Business", new_business_path %>
+  <h3>Send Emails</h3>
+
+  <div class="text-start", id="form-container">
+    <%= render "form", lead: @lead %>
+  </div>
+
+  <%= link_to "Back to leads", leads_path %>
+</div>
+

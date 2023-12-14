@@ -3,8 +3,8 @@ module CsvMailer
     require 'csv'
 
     def perform(params)
-      @company_name = params[:company_name]
-      @business_email = params[:business_email]
+      @lead = params[:lead_id]
+      # @business_email = params[:business_email]
       @csv = params[:csv_file]
 
       file_path = File.open(@csv)

@@ -1,0 +1,8 @@
+<%= render @lead %>
+
+<div>
+  <%= link_to "Edit this lead", edit_lead_path(@lead) %> |
+  <%= link_to "Back to leads", leads_path %>
+
+  <%= button_to "Destroy this lead", @lead, method: :delete %>
+</div>
