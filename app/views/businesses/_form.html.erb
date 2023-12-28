@@ -2,7 +2,6 @@
   <% if business.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(business.errors.count, "error") %> prohibited this business from being saved:</h2>
-
       <ul>
         <% business.errors.each do |error| %>
           <li><%= error.full_message %></li>
