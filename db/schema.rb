@@ -33,6 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_28_194619) do
 
   create_table "leads", force: :cascade do |t|
     t.bigint "business_id", null: false
+    t.integer "count", default: 0
     t.datetime "first_followup", null: false
     t.datetime "second_followup", null: false
     t.datetime "third_followup", null: false
@@ -45,7 +46,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_28_194619) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email", default: "", null: false
-    t.text "details"
     t.bigint "lead_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
