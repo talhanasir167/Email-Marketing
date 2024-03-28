@@ -34,7 +34,7 @@ class LeadsProcessingService
   end
 
   def send_email(email, subject)
-    UserMailer.send_email(email, subject).deliver_later
+    UserMailer.send_email(email, subject).deliver_now
   end
 
   def create_user(name, email)
