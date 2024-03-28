@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_28_123101) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_28_194619) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_28_123101) do
     t.text "description", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "generated_emails", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "subject", default: "", null: false
+    t.string "message_id", default: "", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_generated_emails_on_user_id"
   end
 
   create_table "leads", force: :cascade do |t|
@@ -42,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_28_123101) do
     t.index ["lead_id"], name: "index_users_on_lead_id"
   end
 
+  add_foreign_key "generated_emails", "users"
   add_foreign_key "leads", "businesses"
   add_foreign_key "users", "leads"
 end
