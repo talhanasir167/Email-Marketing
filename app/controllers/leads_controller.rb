@@ -1,6 +1,6 @@
 class LeadsController < ApplicationController
-  before_action :set_lead, only: %i[ show edit update destroy ]
-  before_action :set_businesses, only: %i[ new edit ]
+  before_action :set_lead, only: %i[show edit update destroy]
+  before_action :set_businesses, only: %i[new edit]
 
   # GET /leads or /leads.json
   def index
@@ -8,8 +8,7 @@ class LeadsController < ApplicationController
   end
 
   # GET /leads/1 or /leads/1.json
-  def show
-  end
+  def show; end
 
   # GET /leads/new
   def new
@@ -17,8 +16,7 @@ class LeadsController < ApplicationController
   end
 
   # GET /leads/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /leads or /leads.json
   def create
@@ -26,8 +24,8 @@ class LeadsController < ApplicationController
 
     respond_to do |format|
       if @lead.save
-        CsvMailer::CsvEmailService.new.perform({lead_id: @lead, csv_file: params[:lead][:csv_file] })
-        format.html { redirect_to lead_url(@lead), notice: "Lead was successfully created and being processed" }
+        LeadsProcessingService.new({ lead_id: @lead, csv_file: params[:lead][:csv_file] }).call!
+        format.html { redirect_to lead_url(@lead), notice: 'Lead was successfully created and being processed' }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -38,7 +36,7 @@ class LeadsController < ApplicationController
   def update
     respond_to do |format|
       if @lead.update(lead_params)
-        format.html { redirect_to lead_url(@lead), notice: "Lead was successfully updated." }
+        format.html { redirect_to lead_url(@lead), notice: 'Lead was successfully updated.' }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -50,22 +48,23 @@ class LeadsController < ApplicationController
     @lead.destroy
 
     respond_to do |format|
-      format.html { redirect_to leads_url, notice: "Lead was successfully destroyed." }
+      format.html { redirect_to leads_url, notice: 'Lead was successfully destroyed.' }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_lead
-      @lead = Lead.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def lead_params
-      params.require(:lead).permit(:business_id, :first_followup, :second_followup, :third_followup, :fourth_followup)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_lead
+    @lead = Lead.find(params[:id])
+  end
 
-    def set_businesses
-      @businesses = Business.all.pluck(:name, :id)
-    end
+  # Only allow a list of trusted parameters through.
+  def lead_params
+    params.require(:lead).permit(:business_id, :first_followup, :second_followup, :third_followup, :fourth_followup)
+  end
+
+  def set_businesses
+    @businesses = Business.all.pluck(:name, :id)
+  end
 end

@@ -1,5 +1,5 @@
 class BusinessesController < ApplicationController
-  before_action :set_business, only: %i[ show edit update destroy ]
+  before_action :set_business, only: %i[show edit update destroy]
 
   # GET /businesses or /businesses.json
   def index
@@ -7,8 +7,7 @@ class BusinessesController < ApplicationController
   end
 
   # GET /businesses/1 or /businesses/1.json
-  def show
-  end
+  def show; end
 
   # GET /businesses/new
   def new
@@ -16,8 +15,7 @@ class BusinessesController < ApplicationController
   end
 
   # GET /businesses/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /businesses or /businesses.json
   def create
@@ -25,7 +23,7 @@ class BusinessesController < ApplicationController
 
     respond_to do |format|
       if @business.save
-        format.html { redirect_to business_url(@business), notice: "Business was successfully created." }
+        format.html { redirect_to business_url(@business), notice: 'Business was successfully created.' }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -36,7 +34,7 @@ class BusinessesController < ApplicationController
   def update
     respond_to do |format|
       if @business.update(business_params)
-        format.html { redirect_to business_url(@business), notice: "Business was successfully updated." }
+        format.html { redirect_to business_url(@business), notice: 'Business was successfully updated.' }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -48,18 +46,19 @@ class BusinessesController < ApplicationController
     @business.destroy
 
     respond_to do |format|
-      format.html { redirect_to businesses_url, notice: "Business was successfully destroyed." }
+      format.html { redirect_to businesses_url, notice: 'Business was successfully destroyed.' }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_business
-      @business = Business.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def business_params
-      params.require(:business).permit(:name, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_business
+    @business = Business.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def business_params
+    params.require(:business).permit(:name, :description)
+  end
 end
