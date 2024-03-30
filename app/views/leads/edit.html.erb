@@ -21,22 +21,22 @@
 
     <div class="mb-3">
       <label for="first_followup" class="form-label"><%= form.label :first_followup %></label>
-      <%= form.datetime_field :first_followup, class: 'form-control', required: true %>
+      <%= form.datetime_field :first_followup, class: 'form-control', required: @lead.followup_count.zero?, readonly:  @lead.followup_count.positive? %>
     </div>
 
     <div class="mb-3">
       <label for="second_followup" class="form-label"><%= form.label :second_followup %></label>
-      <%= form.datetime_field :second_followup, class: 'form-control', required: true %>
+      <%= form.datetime_field :second_followup, class: 'form-control', required: ( @lead.followup_count < 2 ) , readonly:  ( @lead.followup_count > 1 ) %>
     </div>
 
     <div class="mb-3">
       <label for="third_followup" class="form-label"><%= form.label :third_followup %></label>
-      <%= form.datetime_field :third_followup, class: 'form-control', required: true %>
+      <%= form.datetime_field :third_followup, class: 'form-control', required: ( @lead.followup_count < 3 ) , readonly:  ( @lead.followup_count > 2 ) %>
     </div>
 
     <div class="mb-3">
       <label for="fourth_followup" class="form-label"><%= form.label :fourth_followup %></label>
-      <%= form.datetime_field :fourth_followup, class: 'form-control', required: true %>
+      <%= form.datetime_field :fourth_followup, class: 'form-control', required: ( @lead.followup_count < 4 ) , readonly:  ( @lead.followup_count > 3 ) %>
     </div>
 
     <div class="text-center">

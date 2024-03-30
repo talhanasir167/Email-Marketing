@@ -37,19 +37,19 @@
           </td>
           <td> 
             <div><%= lead.first_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= link_to "Send first follow-up", business_leads_path(@business), class: "text-success" %></div>
+            <div><%= display_followup_status(lead, 1) %></div>
           </td>
           <td> 
             <div><%= lead.second_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= link_to "Send second follow-up", business_leads_path(@business), class: "text-success" %></div>
+            <div><%= display_followup_status(lead, 2) %></div>
           </td>
           <td> 
             <div><%= lead.third_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= link_to "Send third follow-up", business_leads_path(@business), class: "text-success" %></div>
+            <div><%= display_followup_status(lead, 3) %></div>
           </td>
           <td> 
             <div><%= lead.fourth_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= link_to "Send fourth follow-up", business_leads_path(@business), class: "text-success" %></div>
+            <div><%= display_followup_status(lead, 4) %></div>
           </td>
         </tr>
       <% end %>

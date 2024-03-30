@@ -1,24 +1,28 @@
 <div class="p-5">
   <div class="d-flex flex-wrap justify-content-between">
+
     <div class="border border-2 w-16rem">
       <div class="fs-5 fw-semibold bg-body-secondary p-2">First Follow-up</div>
       <div class="p-2"><%= @lead.first_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= link_to "Send first follow-up", business_leads_path(@lead.business), class: "text-success" %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 1) %></div>
     </div>
+
     <div class="border border-2 w-16rem">
       <div class="fs-5 fw-semibold bg-body-secondary p-2">Second Follow-up</div>
       <div class="p-2"><%= @lead.second_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= link_to "Send second follow-up", business_leads_path(@lead.business), class: "text-success" %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 2) %></div>
     </div>
+
     <div class="border border-2 w-16rem">
       <div class="fs-5 fw-semibold bg-body-secondary p-2">Third Follow-up</div>
       <div class="p-2"><%= @lead.third_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= link_to "Send third follow-up", business_leads_path(@lead.business), class: "text-success" %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 3) %></div>
     </div>
+
     <div class="border border-2 w-16rem">
       <div class="fs-5 fw-semibold bg-body-secondary p-2">Fourth Follow-up</div>
       <div class="p-2"><%= @lead.fourth_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= link_to "Send fourth follow-up", business_leads_path(@lead.business), class: "text-success" %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 4) %></div>
     </div>
   </div>
 
