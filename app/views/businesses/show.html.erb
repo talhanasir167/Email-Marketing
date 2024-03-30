@@ -1,8 +1,62 @@
-<%= render @business %>
+<div class="bg-body-secondary p-3 d-flex flex-wrap justify-content-between">
+  <div class="fs-4 fw-semibold"><%= @business.name %></div>
+  <div><%= link_to "New lead", new_business_lead_path(@business) %></div>
+</div>
+
+<div class="m-5 border border-2">
+  <div class="d-flex flex-wrap bg-body-secondary justify-content-between p-3" >
+    <div class="fw-semibold">Business Details: </div>
+    <div><%= link_to "Edit this business", edit_business_path(@business) %></div>
+    <div><%= button_to "Destroy this business", @business, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
+  </div>
+  <div class="p-3"><%= @business.description %></div>
+</div>
+
+<div class="m-5">
+  <div class="d-flex flex-wrap bg-body-secondary justify-content-between p-3" >
+    <div class="fw-semibold">Leads: </div>
+  </div>
+  <table class="table mt-3">
+    <thead class="table-light">
+      <tr>
+        <td> Generated at </td>
+        <td> Lead Count </td>
+        <td> First Follow-up </td>
+        <td> Second Follow-up </td>
+        <td> Third Follow-up </td>
+        <td> Fourth Follow-up </td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @business.leads.each do |lead| %>
+        <tr>
+          <td> <%= lead.created_at.strftime("On %A %d-%b-%Y") %> </td>
+          <td> 
+            <div><%= lead.count %><div>
+            <div><%= link_to "Show this lead", lead, class: "text-primary" %></div>
+          </td>
+          <td> 
+            <div><%= lead.first_followup.strftime("On %A %d-%b-%Y") %></div>
+            <div><%= link_to "Send first follow-up", business_leads_path(@business), class: "text-success" %></div>
+          </td>
+          <td> 
+            <div><%= lead.second_followup.strftime("On %A %d-%b-%Y") %></div>
+            <div><%= link_to "Send second follow-up", business_leads_path(@business), class: "text-success" %></div>
+          </td>
+          <td> 
+            <div><%= lead.third_followup.strftime("On %A %d-%b-%Y") %></div>
+            <div><%= link_to "Send third follow-up", business_leads_path(@business), class: "text-success" %></div>
+          </td>
+          <td> 
+            <div><%= lead.fourth_followup.strftime("On %A %d-%b-%Y") %></div>
+            <div><%= link_to "Send fourth follow-up", business_leads_path(@business), class: "text-success" %></div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <div>
-  <%= link_to "Edit this business", edit_business_path(@business) %> |
   <%= link_to "Back to businesses", businesses_path %>
-
-  <%= button_to "Destroy this business", @business, method: :delete %>
 </div>

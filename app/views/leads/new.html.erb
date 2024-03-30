@@ -1,11 +1,56 @@
-<div class="center-div">
-  <%= link_to "Create New Business", new_business_path %>
-  <h3>Send Emails</h3>
+<div class="d-flex flex-column p-5 m-5 shadow">
+  <h3 class="text-center">Send Emails</h3>
 
-  <div class="text-start", id="form-container">
-    <%= render "form", lead: @lead %>
+  <div class="text-start">
+    <%= form_with(model: [ @lead.business, @lead ]) do |form| %>
+      <% if @lead.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(@lead.errors.count, "error") %> prohibited this lead from being saved:</h2>
+
+          <ul>
+            <% @lead.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <label for="business_id" class="form-label"><%= form.label :business_id %></label>
+        <%= form.select :business_id, @businesses, {}, class: 'form-control', required: true %>
+      </div>
+
+      <div class="mb-3">
+        <label for="first_followup" class="form-label"><%= form.label :first_followup %></label>
+        <%= form.datetime_field :first_followup, class: 'form-control', required: true %>
+      </div>
+
+      <div class="mb-3">
+        <label for="second_followup" class="form-label"><%= form.label :second_followup %></label>
+        <%= form.datetime_field :second_followup, class: 'form-control', required: true %>
+      </div>
+
+      <div class="mb-3">
+        <label for="third_followup" class="form-label"><%= form.label :third_followup %></label>
+        <%= form.datetime_field :third_followup, class: 'form-control', required: true %>
+      </div>
+
+      <div class="mb-3">
+        <label for="fourth_followup" class="form-label"><%= form.label :fourth_followup %></label>
+        <%= form.datetime_field :fourth_followup, class: 'form-control', required: true %>
+      </div>
+
+      <div class="mb-3">
+        <label>Upload Exel File:</label>
+        <%= form.file_field :csv_file, placeholder: 'Email address...', class: 'form-control', required: true %>
+      </div>
+
+      <div class="text-center">
+        <%= form.submit class: 'btn btn-primary' %>
+      </div>
+    <% end %>
   </div>
 
-  <%= link_to "Back to leads", leads_path %>
+  <%= link_to "Back to business", @lead.business %>
 </div>
 

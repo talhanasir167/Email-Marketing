@@ -15,30 +15,28 @@ class LeadsProcessingService
 
     CSV.foreach(file_path, headers: true) do |row|
       row = parocessed_row(row)
-      email = row[:email]
-      name = row[:name]
-      subject = row[:subject]
+      next if @lead.business.leads.joins(:users).where(users: { email: row[:email] }).present?
 
-      user = find_or_create_user(name, email)
-      create_and_send_email(email, subject, user)
+      user = find_or_create_user(row[:name], row[:email])
+      create_and_send_email(row[:email], row[:subject], user)
     end
 
-    @lead.update(count: CSV.foreach(file_path, headers: true).count)
+    @lead.update(count: @lead.users.count)
   end
 
   private
 
   def parocessed_row(row)
     {
-      name: row['Name']&.strip || '',
-      email: row['Email'].strip,
+      name: row['Name']&.strip&.titleize || '',
+      email: row['Email'].strip.downcase,
       subject: row['Subject'].strip
     }
   end
 
   def create_and_send_email(email, subject, user)
     msg = UserMailer.send_email(email, subject).deliver_now
-    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, user_id: user.id) if user.generated_email.blank?
+    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, user_id: user.id)
   end
 
   def find_or_create_user(name, email)
