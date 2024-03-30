@@ -1,14 +1,5 @@
 <%= form_with(model: business) do |form| %>
-  <% if business.errors.any? %>
-    <div class="text-danger">
-      <h2><%= pluralize(business.errors.count, "error") %> prohibited this business from being saved:</h2>
-      <ul>
-        <% business.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "shared/error_messages", object: business %>
 
   <div>
     <%= form.label :name %>

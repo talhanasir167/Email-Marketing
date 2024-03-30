@@ -1,18 +1,8 @@
-<div class="d-flex flex-column p-5 m-5 shadow">
+<div class="d-flex flex-column p-5 m-auto w-40rem mt-5  shadow">
   <h3 class="text-center">Edit Lead</h3>
 
   <%= form_with(model:@lead ) do |form| %>
-    <% if @lead.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(@lead.errors.count, "error") %> prohibited this lead from being saved:</h2>
-
-        <ul>
-          <% @lead.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= render "shared/error_messages", object: @lead %>
 
     <div class="mb-3">
       <label for="business_id" class="form-label"><%= form.label :business_id %></label>

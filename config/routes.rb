@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   resources :businesses do
     resources :leads, shallow: true, except: %i[index]
   end
-  resources :users, except: %i[new create]
+  resources :users, only: %i[edit update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 end

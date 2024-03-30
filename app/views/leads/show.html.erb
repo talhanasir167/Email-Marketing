@@ -32,30 +32,24 @@
     <div><%= button_to "Destroy this lead", @lead, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
   </div>
 
-  <table class="table mt-3">
-    <thead class="table-light">
-      <tr>
-        <td >
-          Name
-        </td>
-        <td >
-          Email
-        </td>
-      </tr>
-    </thead>
-    <tbody>
-      <% @lead.users.each do |user| %>
-        <tr>
-          <td >
-            <%= user.name %>
-          </td>
-          <td >
-            <%= user.email %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="row m-0 py-1 border-bottom bg-body-tertiary fw-semibold mt-3">
+    <div class="col">Name</div>
+    <div class="col">Email</div>
+    <div class="col">Status</div>
+    <div class="col">Update Status</div>
+  </div>
+  <% @lead.users.each do |user| %>
+    <%= turbo_frame_tag "edit_user_#{user.id}_frame" do %>
+      <%= render 'shared/toast_notification' %>
+      <%= render "shared/error_messages", object: user %>
+      <div class="row py-1 border-bottom m-0">
+        <div class="col"><%= user.name %></div>
+        <div class="col"><%= user.email %></div>
+        <div class="col"><%= user.active ? 'Active' : 'Unactive' %></div>
+        <div class="col"><%= link_to "Edit this user", edit_user_path(user) %></div>
+      </div>
+    <% end %>
+  <% end %>
 </div>
 
 <div>
