@@ -14,29 +14,6 @@
  *= require_self
  */
 
- .center-div {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 2rem;
-  max-width: 40rem;
-  margin: auto;
-  margin-top: 9rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  text-align: center;
- }
-
- .form-control {
-  padding: 10px;
-  width: -webkit-fill-available;
-  margin: 10px 0;
- }
-
- .text-start {
-  text-align: start;
- }
-
  .flash {
   position:fixed;
   top: 5rem;
@@ -73,4 +50,8 @@
 
 .error {
   background-color: red ;
+}
+
+.w-16rem {
+  width: 16rem;
 }

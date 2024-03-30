@@ -1,8 +1,63 @@
-<%= render @lead %>
+<div class="p-5">
+  <div class="d-flex flex-wrap justify-content-between">
+
+    <div class="border border-2 w-16rem">
+      <div class="fs-5 fw-semibold bg-body-secondary p-2">First Follow-up</div>
+      <div class="p-2"><%= @lead.first_followup.strftime("On %A %d-%b-%Y") %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 1) %></div>
+    </div>
+
+    <div class="border border-2 w-16rem">
+      <div class="fs-5 fw-semibold bg-body-secondary p-2">Second Follow-up</div>
+      <div class="p-2"><%= @lead.second_followup.strftime("On %A %d-%b-%Y") %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 2) %></div>
+    </div>
+
+    <div class="border border-2 w-16rem">
+      <div class="fs-5 fw-semibold bg-body-secondary p-2">Third Follow-up</div>
+      <div class="p-2"><%= @lead.third_followup.strftime("On %A %d-%b-%Y") %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 3) %></div>
+    </div>
+
+    <div class="border border-2 w-16rem">
+      <div class="fs-5 fw-semibold bg-body-secondary p-2">Fourth Follow-up</div>
+      <div class="p-2"><%= @lead.fourth_followup.strftime("On %A %d-%b-%Y") %></div>
+      <div class="p-2"><%= display_followup_status(@lead, 4) %></div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap bg-body-secondary justify-content-between p-3 mt-5" >
+    <div class="fw-semibold">Leads (<%= @lead.count %>)</div>
+    <div><%= link_to "Edit this lead", edit_lead_path(@lead) %></div>
+    <div><%= button_to "Destroy this lead", @lead, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
+  </div>
+
+  <table class="table mt-3">
+    <thead class="table-light">
+      <tr>
+        <td >
+          Name
+        </td>
+        <td >
+          Email
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lead.users.each do |user| %>
+        <tr>
+          <td >
+            <%= user.name %>
+          </td>
+          <td >
+            <%= user.email %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <div>
-  <%= link_to "Edit this lead", edit_lead_path(@lead) %> |
-  <%= link_to "Back to leads", leads_path %>
-
-  <%= button_to "Destroy this lead", @lead, method: :delete %>
+  <%= link_to "Back to business", @lead.business %>
 </div>
