@@ -3,7 +3,7 @@ module LeadsHelper
     if lead.followup_count >= followup_count
       content_tag(:span, 'sent', class: 'bg-success px-2 py-1 text-white rounded-1')
     else
-      link_to "Send #{num_to_text(followup_count)} follow-up", business_leads_path(lead.business),
+      link_to "Send #{num_to_text(followup_count)} follow-up", followup_lead_path(lead, followup_count:),
               class: 'text-success'
     end
   end
