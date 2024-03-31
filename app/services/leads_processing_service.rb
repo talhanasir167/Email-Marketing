@@ -2,8 +2,9 @@ class LeadsProcessingService
   require 'csv'
 
   def initialize(params)
-    @lead = params[:lead_id]
+    @lead = params[:lead]
     @csv = params[:csv_file]
+    @business = @lead.business
   end
 
   def call!
@@ -35,13 +36,15 @@ class LeadsProcessingService
   end
 
   def create_and_send_email(email, subject, user)
+    return if GeneratedEmail.where(business: @business, user:).exists?
+
     msg = UserMailer.send_email(email, subject).deliver_now
-    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, user_id: user.id)
+    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, user:, business: @business)
   end
 
   def find_or_create_user(name, email)
     user = @lead.users.find_or_initialize_by(email:)
-    user.name = name
+    user.name = name if user.name.blank?
     user.save
 
     user
