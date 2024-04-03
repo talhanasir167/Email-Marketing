@@ -9,7 +9,7 @@
     <div><%= link_to "Edit this business", edit_business_path(@business) %></div>
     <div><%= button_to "Destroy this business", @business, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
   </div>
-  <div class="p-3"><%= @business.description %></div>
+  <div class="p-3"><%= @business.tag_line %></div>
 </div>
 
 <div class="m-5">

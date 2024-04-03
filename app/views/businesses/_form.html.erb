@@ -1,17 +1,31 @@
-<%= form_with(model: business) do |form| %>
+<%= form_with(model: business, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' } ) do |form| %>
   <%= render "shared/error_messages", object: business %>
 
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name, required: true %>
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, placeholder: "Business Name", class: 'form-control', required: true %>
   </div>
 
-  <div>
-    <%= form.label :description %>
-    <%= form.text_area :description, required: true %>
+  <div class="mb-3">
+    <%= form.label :tag_line, class: "form-label" %>
+    <%= form.text_field :tag_line, placeholder: "Tag line of your business", class: 'form-control', required: true %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <%= form.fields_for :business_emails do |business_email_fields| %>
+    <%= render "business_email_form", f: business_email_fields %>
+  <% end %>
+
+  <template data-nested-form-target="template">
+    <%= form.fields_for :business_emails, BusinessEmail.new, child_index: 'NEW_RECORD' do |business_email_fields| %>
+      <%= render "business_email_form", f: business_email_fields %>
+    <% end %>
+  </template>
+  <div data-nested-form-target="target"></div>
+
+  <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new email</button>
+
+
+  <div class="text-center">
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

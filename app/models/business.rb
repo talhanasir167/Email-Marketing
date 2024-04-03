@@ -1,6 +1,9 @@
 class Business < ApplicationRecord
-  validates :name, :description, presence: true
+  validates :name, :tag_line, presence: true
 
   has_many :leads, dependent: :destroy
   has_many :generated_emails, dependent: :destroy
+  has_many :business_emails, dependent: :destroy
+
+  accepts_nested_attributes_for :business_emails, reject_if: :all_blank, allow_destroy: true
 end

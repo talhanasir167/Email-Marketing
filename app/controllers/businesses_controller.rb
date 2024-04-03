@@ -9,6 +9,7 @@ class BusinessesController < ApplicationController
 
   def new
     @business = Business.new
+    @business.business_emails.build
   end
 
   def edit; end
@@ -44,6 +45,6 @@ class BusinessesController < ApplicationController
   end
 
   def business_params
-    params.require(:business).permit(:name, :description)
+    params.require(:business).permit(:name, :tag_line, business_emails_attributes: %i[id _destroy email])
   end
 end

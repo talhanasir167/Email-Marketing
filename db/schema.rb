@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_28_194619) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_31_052651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "business_emails", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.bigint "business_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["business_id"], name: "index_business_emails_on_business_id"
+  end
+
   create_table "businesses", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.text "description", default: "", null: false
+    t.string "tag_line", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -34,15 +42,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_28_194619) do
   end
 
   create_table "leads", force: :cascade do |t|
-    t.bigint "business_id", null: false
     t.integer "count", default: 0
     t.integer "followup_count", default: 0
     t.datetime "first_followup", null: false
     t.datetime "second_followup", null: false
     t.datetime "third_followup", null: false
     t.datetime "fourth_followup", null: false
+    t.bigint "business_id", null: false
+    t.bigint "business_email_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["business_email_id"], name: "index_leads_on_business_email_id"
     t.index ["business_id"], name: "index_leads_on_business_id"
   end
 
@@ -56,8 +66,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_28_194619) do
     t.index ["lead_id"], name: "index_users_on_lead_id"
   end
 
+  add_foreign_key "business_emails", "businesses"
   add_foreign_key "generated_emails", "businesses"
   add_foreign_key "generated_emails", "users"
+  add_foreign_key "leads", "business_emails"
   add_foreign_key "leads", "businesses"
   add_foreign_key "users", "leads"
 end
