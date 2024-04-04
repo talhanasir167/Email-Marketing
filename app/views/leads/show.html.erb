@@ -27,7 +27,7 @@
   </div>
 
   <div class="d-flex flex-wrap bg-body-secondary justify-content-between p-3 mt-5" >
-    <div class="fw-semibold">Leads (<%= @lead.count %>)</div>
+    <div class="fw-semibold">Contacts (<%= @lead.count %>)</div>
     <div><%= link_to "Edit this lead", edit_lead_path(@lead) %></div>
     <div><%= button_to "Destroy this lead", @lead, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
   </div>
@@ -38,15 +38,15 @@
     <div class="col">Status</div>
     <div class="col">Update Status</div>
   </div>
-  <% @lead.users.each do |user| %>
-    <%= turbo_frame_tag "edit_user_#{user.id}_frame" do %>
+  <% @lead.contacts.each do |contact| %>
+    <%= turbo_frame_tag "edit_contact_#{contact.id}_frame" do %>
       <%= render 'shared/toast_notification' %>
-      <%= render "shared/error_messages", object: user %>
+      <%= render "shared/error_messages", object: contact %>
       <div class="row py-1 border-bottom m-0">
-        <div class="col"><%= user.name %></div>
-        <div class="col"><%= user.email %></div>
-        <div class="col"><%= user.active ? 'Active' : 'Inactive' %></div>
-        <div class="col"><%= link_to "Edit this user", edit_user_path(user) %></div>
+        <div class="col"><%= contact.name %></div>
+        <div class="col"><%= contact.email %></div>
+        <div class="col"><%= contact.active ? 'Active' : 'Inactive' %></div>
+        <div class="col"><%= link_to "Edit this contact", edit_contact_path(contact) %></div>
       </div>
     <% end %>
   <% end %>
