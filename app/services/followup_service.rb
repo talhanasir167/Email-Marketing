@@ -24,8 +24,14 @@ class FollowupService
       email: generated_email.email,
       subject: generated_email.subject,
       name: generated_email.user.name,
+      sender_email:,
       followup_count: @followup_count,
       message_id: generated_email.message_id
     }
+  end
+
+  def sender_email
+    business_name = @lead.business.name.titlecase
+    "#{business_name} <#{@lead.business_email.email}>"
   end
 end
