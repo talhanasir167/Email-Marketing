@@ -1,17 +1,15 @@
 class LeadsController < ApplicationController
   before_action :set_lead, only: %i[show edit update destroy followup]
-  before_action :set_businesses, only: %i[new edit create update]
+  before_action :set_business, only: %i[new create]
 
   def show; end
 
   def new
-    @lead = Lead.new(business_id: params[:business_id])
+    @lead = @business.leads.new
   end
 
-  def edit; end
-
   def create
-    @lead = Lead.new(lead_params)
+    @lead = @business.leads.new(lead_params)
 
     if @lead.save
       LeadsProcessingService.new({ lead: @lead, csv_file: params[:lead][:csv_file] }).call!
@@ -20,6 +18,8 @@ class LeadsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def edit; end
 
   def update
     if @lead.update(lead_params)
@@ -49,10 +49,11 @@ class LeadsController < ApplicationController
   end
 
   def lead_params
-    params.require(:lead).permit(:business_id, :first_followup, :second_followup, :third_followup, :fourth_followup)
+    params.require(:lead).permit(:business_email_id, :first_followup, :second_followup, :third_followup,
+                                 :fourth_followup)
   end
 
-  def set_businesses
-    @businesses = Business.all.pluck(:name, :id)
+  def set_business
+    @business = Business.find(params[:business_id])
   end
 end

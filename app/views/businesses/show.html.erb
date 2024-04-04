@@ -13,6 +13,15 @@
 </div>
 
 <div class="m-5">
+  <div class="fw-semibold">Listed business emails</div>
+  <ul>
+    <% @business.business_emails.each do |business_email| %>
+      <li><%= business_email.email %></li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="m-5">
   <div class="d-flex flex-wrap bg-body-secondary justify-content-between p-3" >
     <div class="fw-semibold">Leads: </div>
   </div>

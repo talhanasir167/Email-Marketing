@@ -5,27 +5,32 @@
     <%= render "shared/error_messages", object: @lead %>
 
     <div class="mb-3">
-      <label for="business_id" class="form-label"><%= form.label :business_id %></label>
-      <%= form.select :business_id, @businesses, {}, class: 'form-control', readonly: true %>
+      <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
+      <%= form.text_field :business_id, value: @lead.business.name, class: 'form-control', readonly: true %>
     </div>
 
     <div class="mb-3">
-      <label for="first_followup" class="form-label"><%= form.label :first_followup %></label>
+      <label for="business_email_id" class="form-label text-muted"><%= form.label :business_email_id %></label>
+      <%= form.text_field :business_email, value: @lead.business_email.email, class: 'form-control', readonly: true %>
+    </div>
+
+    <div class="mb-3">
+      <label for="first_followup" class="form-label text-muted"><%= form.label :first_followup %></label>
       <%= form.datetime_field :first_followup, class: 'form-control', required: @lead.followup_count.zero?, readonly:  @lead.followup_count.positive? %>
     </div>
 
     <div class="mb-3">
-      <label for="second_followup" class="form-label"><%= form.label :second_followup %></label>
+      <label for="second_followup" class="form-label text-muted"><%= form.label :second_followup %></label>
       <%= form.datetime_field :second_followup, class: 'form-control', required: ( @lead.followup_count < 2 ) , readonly:  ( @lead.followup_count > 1 ) %>
     </div>
 
     <div class="mb-3">
-      <label for="third_followup" class="form-label"><%= form.label :third_followup %></label>
+      <label for="third_followup" class="form-label text-muted"><%= form.label :third_followup %></label>
       <%= form.datetime_field :third_followup, class: 'form-control', required: ( @lead.followup_count < 3 ) , readonly:  ( @lead.followup_count > 2 ) %>
     </div>
 
     <div class="mb-3">
-      <label for="fourth_followup" class="form-label"><%= form.label :fourth_followup %></label>
+      <label for="fourth_followup" class="form-label text-muted"><%= form.label :fourth_followup %></label>
       <%= form.datetime_field :fourth_followup, class: 'form-control', required: ( @lead.followup_count < 4 ) , readonly:  ( @lead.followup_count > 3 ) %>
     </div>
 
