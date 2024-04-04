@@ -16,13 +16,13 @@ class LeadsProcessingService
 
     CSV.foreach(file_path, headers: true) do |row|
       row = parocessed_row(row)
-      next if @lead.business.leads.joins(:users).where(users: { email: row[:email] }).present?
+      next if @lead.business.leads.joins(:contacts).where(contacts: { email: row[:email] }).present?
 
-      user = find_or_create_user(row[:name], row[:email])
-      create_and_send_email(row[:email], row[:subject], user)
+      contact = find_or_create_contact(row[:name], row[:email])
+      create_and_send_email(row[:email], row[:subject], contact)
     end
 
-    @lead.update(count: @lead.users.count)
+    @lead.update(count: @lead.contacts.count)
   end
 
   private
@@ -35,19 +35,19 @@ class LeadsProcessingService
     }
   end
 
-  def create_and_send_email(email, subject, user)
-    return if GeneratedEmail.where(business: @business, user:).exists?
+  def create_and_send_email(email, subject, contact)
+    return if GeneratedEmail.where(business: @business, contact:).exists?
 
     msg = UserMailer.send_email(email, subject, sender_email).deliver_now
-    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, user:, business: @business)
+    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, contact:, business: @business)
   end
 
-  def find_or_create_user(name, email)
-    user = @lead.users.find_or_initialize_by(email:)
-    user.name = name if user.name.blank?
-    user.save
+  def find_or_create_contact(name, email)
+    contact = @lead.contacts.find_or_initialize_by(email:)
+    contact.name = name if contact.name.blank?
+    contact.save
 
-    user
+    contact
   end
 
   def sender_email

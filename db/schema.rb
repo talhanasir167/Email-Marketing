@@ -29,16 +29,26 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_31_052651) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.string "name", default: ""
+    t.string "email", default: "", null: false
+    t.boolean "active", default: true
+    t.bigint "lead_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lead_id"], name: "index_contacts_on_lead_id"
+  end
+
   create_table "generated_emails", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "subject", default: "", null: false
     t.string "message_id", default: "", null: false
-    t.bigint "user_id", null: false
+    t.bigint "contact_id", null: false
     t.bigint "business_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["business_id"], name: "index_generated_emails_on_business_id"
-    t.index ["user_id"], name: "index_generated_emails_on_user_id"
+    t.index ["contact_id"], name: "index_generated_emails_on_contact_id"
   end
 
   create_table "leads", force: :cascade do |t|
@@ -56,20 +66,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_31_052651) do
     t.index ["business_id"], name: "index_leads_on_business_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "name", default: ""
-    t.string "email", default: "", null: false
-    t.boolean "active", default: true
-    t.bigint "lead_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lead_id"], name: "index_users_on_lead_id"
-  end
-
   add_foreign_key "business_emails", "businesses"
+  add_foreign_key "contacts", "leads"
   add_foreign_key "generated_emails", "businesses"
-  add_foreign_key "generated_emails", "users"
+  add_foreign_key "generated_emails", "contacts"
   add_foreign_key "leads", "business_emails"
   add_foreign_key "leads", "businesses"
-  add_foreign_key "users", "leads"
 end

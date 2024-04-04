@@ -1,6 +1,6 @@
-<%= turbo_frame_tag "edit_user_#{@user.id}_frame" do %>
-  <%= form_with(model: @user) do |form| %>
-    <%= render "shared/error_messages", object: @user %>
+<%= turbo_frame_tag "edit_contact_#{@contact.id}_frame" do %>
+  <%= form_with(model: @contact) do |form| %>
+    <%= render "shared/error_messages", object: @contact %>
     <div class="row py-1 border-bottom">
       <div class="col"><%= form.text_field :name, class: 'form-control' %></div>
       <div class="col"><%= form.text_field :email, readonly: true, class: 'form-control' %></div>
