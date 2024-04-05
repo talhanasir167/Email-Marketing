@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  root to: 'businesses#index'
+  root to: 'home#index'
+
+  devise_for :users
 
   resources :businesses do
     resources :leads, shallow: true, except: %i[index] do

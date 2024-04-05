@@ -2,7 +2,7 @@ class BusinessesController < ApplicationController
   before_action :set_business, only: %i[show edit update destroy]
 
   def index
-    @businesses = Business.all
+    @businesses = current_user.businesses
   end
 
   def show; end
@@ -15,7 +15,7 @@ class BusinessesController < ApplicationController
   def edit; end
 
   def create
-    @business = Business.new(business_params)
+    @business = current_user.businesses.new(business_params)
 
     if @business.save
       redirect_to business_url(@business), notice: 'Business was successfully created.'
