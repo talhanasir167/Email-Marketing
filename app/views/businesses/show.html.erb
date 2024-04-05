@@ -4,7 +4,7 @@
 </div>
 
 <div class="m-5 border border-2">
-  <div class="d-flex flex-wrap justify-content-between p-3" >
+  <div class="d-flex flex-wrap justify-content-between p-3 bg-light" >
     <div class="fw-semibold">Business Details: </div>
     <div><%= link_to "Edit this business", edit_business_path(@business) %></div>
     <div><%= button_to "Destroy this business", @business, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
