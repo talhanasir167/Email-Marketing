@@ -25,8 +25,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_012525) do
   create_table "businesses", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "tag_line", default: "", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_businesses_on_user_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -89,6 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_012525) do
   end
 
   add_foreign_key "business_emails", "businesses"
+  add_foreign_key "businesses", "users"
   add_foreign_key "contacts", "leads"
   add_foreign_key "generated_emails", "businesses"
   add_foreign_key "generated_emails", "contacts"
