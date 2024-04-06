@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_05_012525) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_06_013545) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,6 +39,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_012525) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["lead_id"], name: "index_contacts_on_lead_id"
+  end
+
+  create_table "followups", force: :cascade do |t|
+    t.datetime "sent_at", default: "2024-04-06 01:41:36", null: false
+    t.text "content", default: "", null: false
+    t.boolean "sent", default: false, null: false
+    t.bigint "lead_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lead_id"], name: "index_followups_on_lead_id"
   end
 
   create_table "generated_emails", force: :cascade do |t|
@@ -93,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_012525) do
   add_foreign_key "business_emails", "businesses"
   add_foreign_key "businesses", "users"
   add_foreign_key "contacts", "leads"
+  add_foreign_key "followups", "leads"
   add_foreign_key "generated_emails", "businesses"
   add_foreign_key "generated_emails", "contacts"
   add_foreign_key "leads", "business_emails"
