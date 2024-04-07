@@ -26,6 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_06_013545) do
     t.string "name", default: "", null: false
     t.string "tag_line", default: "", null: false
     t.bigint "user_id", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_businesses_on_user_id"
@@ -42,7 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_06_013545) do
   end
 
   create_table "followups", force: :cascade do |t|
-    t.datetime "sent_at", default: "2024-04-06 04:58:10", null: false
+    t.datetime "sent_at", default: "2024-04-07 07:56:50", null: false
     t.text "content", default: "", null: false
     t.boolean "sent", default: false, null: false
     t.bigint "lead_id", null: false

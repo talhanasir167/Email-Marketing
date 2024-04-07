@@ -38,7 +38,7 @@ class LeadsProcessingService
   def create_and_send_email(email, subject, contact)
     return if GeneratedEmail.where(business: @business, contact:).exists?
 
-    msg = UserMailer.send_email(email, subject, sender_email).deliver_now
+    msg = UserMailer.send_email(email, subject, sender_email, @business).deliver_now
     GeneratedEmail.create(email:, subject:, message_id: msg.message_id, contact:, business: @business)
   end
 

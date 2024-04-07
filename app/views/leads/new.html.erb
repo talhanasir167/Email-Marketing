@@ -16,12 +16,12 @@
       </div>
 
       <%= form.fields_for :followups do |followup_fields| %>
-        <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size %>
+        <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size, business: @business %>
       <% end %>
 
       <template data-nested-form-target="template">
         <%= form.fields_for :followups, Followup.new, child_index: 'NEW_RECORD' do |followup_fields| %>
-          <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size %>
+          <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size, business: @business %>
         <% end %>
       </template>
       <div data-nested-form-target="target"></div>
