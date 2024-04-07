@@ -1,11 +1,13 @@
 class LeadsController < ApplicationController
-  before_action :set_lead, only: %i[show edit update destroy followup]
+  before_action :set_lead, only: %i[show edit update destroy]
   before_action :set_business, only: %i[new create]
+  before_action :set_followup, only: %i[followup]
 
   def show; end
 
   def new
     @lead = @business.leads.new
+    @lead.followups.build
   end
 
   def create
@@ -35,10 +37,10 @@ class LeadsController < ApplicationController
   end
 
   def followup
-    if FollowupService.new({ lead: @lead, followup_count: params[:followup_count].to_i }).call!
-      redirect_to @lead, notice: 'Follow-up emails were successfully sent'
+    if FollowupService.new(@followup).call!
+      redirect_to @followup.lead, notice: 'Follow-up emails were successfully sent'
     else
-      redirect_to @lead, alert: 'Problem sending follow-up emails'
+      redirect_to @followup.lead, alert: 'Problem sending follow-up emails'
     end
   end
 
@@ -48,9 +50,12 @@ class LeadsController < ApplicationController
     @lead = Lead.find(params[:id])
   end
 
+  def set_followup
+    @followup = Followup.find(params[:id])
+  end
+
   def lead_params
-    params.require(:lead).permit(:business_email_id, :first_followup, :second_followup, :third_followup,
-                                 :fourth_followup)
+    params.require(:lead).permit(:business_email_id, followups_attributes: %i[id _destroy sent_at content])
   end
 
   def set_business

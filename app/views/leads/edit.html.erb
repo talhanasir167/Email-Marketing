@@ -1,7 +1,7 @@
-<div class="d-flex flex-column p-5 m-auto w-40rem mt-5  shadow">
+<div class="d-flex flex-column p-5 m-auto w-70rem mt-5  shadow">
   <h3 class="text-center">Edit Lead</h3>
 
-  <%= form_with(model:@lead ) do |form| %>
+  <%= form_with(model:@lead, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' } ) do |form| %>
     <%= render "shared/error_messages", object: @lead %>
 
     <div class="mb-3">
@@ -14,25 +14,18 @@
       <%= form.text_field :business_email, value: @lead.business_email.email, class: 'form-control', readonly: true %>
     </div>
 
-    <div class="mb-3">
-      <label for="first_followup" class="form-label text-muted"><%= form.label :first_followup %></label>
-      <%= form.datetime_field :first_followup, class: 'form-control', required: @lead.followup_count.zero?, readonly:  @lead.followup_count.positive? %>
-    </div>
+    <%= form.fields_for :followups do |followup_fields| %>
+      <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size %>
+    <% end %>
 
-    <div class="mb-3">
-      <label for="second_followup" class="form-label text-muted"><%= form.label :second_followup %></label>
-      <%= form.datetime_field :second_followup, class: 'form-control', required: ( @lead.followup_count < 2 ) , readonly:  ( @lead.followup_count > 1 ) %>
-    </div>
+    <template data-nested-form-target="template">
+      <%= form.fields_for :followups, @lead.followups.new, child_index: 'NEW_RECORD' do |followup_fields| %>
+        <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size %>
+      <% end %>
+    </template>
+    <div data-nested-form-target="target"></div>
 
-    <div class="mb-3">
-      <label for="third_followup" class="form-label text-muted"><%= form.label :third_followup %></label>
-      <%= form.datetime_field :third_followup, class: 'form-control', required: ( @lead.followup_count < 3 ) , readonly:  ( @lead.followup_count > 2 ) %>
-    </div>
-
-    <div class="mb-3">
-      <label for="fourth_followup" class="form-label text-muted"><%= form.label :fourth_followup %></label>
-      <%= form.datetime_field :fourth_followup, class: 'form-control', required: ( @lead.followup_count < 4 ) , readonly:  ( @lead.followup_count > 3 ) %>
-    </div>
+    <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new followup</button>
 
     <div class="text-center">
       <%= form.submit class: 'btn btn-primary' %>

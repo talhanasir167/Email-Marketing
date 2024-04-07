@@ -1,7 +1,7 @@
 class FollowupService
-  def initialize(params)
-    @lead = params[:lead]
-    @followup_count = params[:followup_count]
+  def initialize(followup)
+    @followup = followup
+    @lead = @followup.lead
   end
 
   def call!
@@ -14,7 +14,7 @@ class FollowupService
       UserMailer.send_followup_email(params).deliver_now
     end
 
-    @lead.update(followup_count: @lead.followup_count + 1)
+    @followup.update(sent: true)
   end
 
   private
@@ -25,13 +25,17 @@ class FollowupService
       subject: generated_email.subject,
       name: generated_email.contact.name,
       sender_email:,
-      followup_count: @followup_count,
-      message_id: generated_email.message_id
+      message_id: generated_email.message_id,
+      body: followup_body(generated_email.contact.name)
     }
   end
 
   def sender_email
     business_name = @lead.business.name.titlecase
     "#{business_name} <#{@lead.business_email.email}>"
+  end
+
+  def followup_body(name)
+    @followup.content.gsub('{NAME}', name)
   end
 end

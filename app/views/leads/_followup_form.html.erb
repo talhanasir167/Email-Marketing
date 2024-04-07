@@ -1,0 +1,19 @@
+<div class="nested-form-wrapper border p-4 mb-3" data-new-record="<%= f.object.new_record? %>">
+
+  <div class="text-end">
+    <button type="button" data-action="nested-form#remove", class='btn btn-close'></button>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label text-muted">Content</label>
+    <% default_content = f.object.content.blank? && render(partial: 'leads/followups/followup', locals: { followup_count: followup_count }) || f.object.content %>
+    <%= f.text_area :content, placeholder: 'Followup mail', value: sanitize(default_content), class: 'form-control', rows: 10, required: ( !f.object.sent ) , readonly:  ( f.object.sent ) %>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label text-muted">Send followup at</label>
+    <%= f.datetime_field :sent_at, class: 'form-control', required: ( !f.object.sent ) , readonly:  ( f.object.sent ) %>
+  </div>
+
+  <%= f.hidden_field :_destroy %>
+</div>

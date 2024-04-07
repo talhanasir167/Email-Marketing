@@ -1,33 +1,16 @@
 <div class="p-5">
   <div class="d-flex flex-wrap justify-content-between">
-
-    <div class="border border-2 w-16rem">
-      <div class="fs-5 fw-semibold bg-light p-2">First Follow-up</div>
-      <div class="p-2"><%= @lead.first_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= display_followup_status(@lead, 1) %></div>
-    </div>
-
-    <div class="border border-2 w-16rem">
-      <div class="fs-5 fw-semibold bg-light p-2">Second Follow-up</div>
-      <div class="p-2"><%= @lead.second_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= display_followup_status(@lead, 2) %></div>
-    </div>
-
-    <div class="border border-2 w-16rem">
-      <div class="fs-5 fw-semibold bg-light p-2">Third Follow-up</div>
-      <div class="p-2"><%= @lead.third_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= display_followup_status(@lead, 3) %></div>
-    </div>
-
-    <div class="border border-2 w-16rem">
-      <div class="fs-5 fw-semibold bg-light p-2">Fourth Follow-up</div>
-      <div class="p-2"><%= @lead.fourth_followup.strftime("On %A %d-%b-%Y") %></div>
-      <div class="p-2"><%= display_followup_status(@lead, 4) %></div>
-    </div>
+    <% @lead.followups.each_with_index do |followup, i| %>
+      <div class="border border-2 w-16rem">
+        <div class="fs-5 fw-semibold bg-light p-2"><%= num_to_text(i+1).titlecase %> Follow-up</div>
+        <div class="p-2"><%= followup.sent_at.strftime("On %A %d-%b-%Y") %></div>
+        <div class="p-2"><%= display_followup_status(followup, i+1 ) %></div>
+      </div>
+    <% end %>
   </div>
 
   <div class="d-flex flex-wrap bg-light justify-content-between p-3 mt-5" >
-    <div class="fw-semibold">Contacts (<%= @lead.count %>)</div>
+    <div class="fw-semibold">Contacts (<%= @lead.contacts_count %>)</div>
     <div><%= link_to "Edit this lead", edit_lead_path(@lead) %></div>
     <div><%= button_to "Destroy this lead", @lead, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
   </div>
