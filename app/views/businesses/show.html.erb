@@ -1,15 +1,6 @@
 <div class="p-3 d-flex flex-wrap justify-content-between">
-  <div class="fs-4 fw-semibold"><%= @business.name %></div>
+  <div class="fs-4 fw-semibold"><%= @business.name %> | <%= @business.tag_line %></div>
   <div><%= link_to "New lead", new_business_lead_path(@business) %></div>
-</div>
-
-<div class="m-5 border border-2">
-  <div class="d-flex flex-wrap justify-content-between p-3 bg-light" >
-    <div class="fw-semibold">Business Details: </div>
-    <div><%= link_to "Edit this business", edit_business_path(@business) %></div>
-    <div><%= button_to "Destroy this business", @business, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
-  </div>
-  <div class="p-3"><%= @business.tag_line %></div>
 </div>
 
 <div class="m-5">
@@ -22,9 +13,7 @@
 </div>
 
 <div class="m-5">
-  <div class="d-flex flex-wrap justify-content-between p-3" >
-    <div class="fw-semibold">Leads: </div>
-  </div>
+  <div class="fw-semibold ">Leads: </div>
   <table class="table mt-3">
     <thead class="table-light">
       <tr>
@@ -34,32 +23,23 @@
         <td> Second Follow-up </td>
         <td> Third Follow-up </td>
         <td> Fourth Follow-up </td>
+        <td> Fifth Follow-up </td>
       </tr>
     </thead>
     <tbody>
       <% @business.leads.each do |lead| %>
-        <tr>
+        <tr class="border-bottom">
           <td> <%= lead.created_at.strftime("On %A %d-%b-%Y") %> </td>
           <td> 
-            <div><%= lead.count %><div>
+            <div><%= lead.contacts_count %><div>
             <div><%= link_to "Show this lead", lead, class: "text-primary" %></div>
           </td>
-          <td> 
-            <div><%= lead.first_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= display_followup_status(lead, 1) %></div>
-          </td>
-          <td> 
-            <div><%= lead.second_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= display_followup_status(lead, 2) %></div>
-          </td>
-          <td> 
-            <div><%= lead.third_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= display_followup_status(lead, 3) %></div>
-          </td>
-          <td> 
-            <div><%= lead.fourth_followup.strftime("On %A %d-%b-%Y") %></div>
-            <div><%= display_followup_status(lead, 4) %></div>
-          </td>
+          <% lead.followups.each_with_index do |followup, i| %>
+            <td> 
+              <div><%= followup.sent_at.strftime("On %A %d-%b-%Y") %></div>
+              <div><%= display_followup_status(followup, i+1 ) %></div>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
@@ -67,5 +47,7 @@
 </div>
 
 <div>
-  <%= link_to "Back to businesses", businesses_path %>
+  <%= link_to "Back to businesses", businesses_path %> |
+  <%= link_to "Edit this business", edit_business_path(@business) %> |
+  <%= button_to "Destroy this business", @business, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-light text-danger" %>
 </div>

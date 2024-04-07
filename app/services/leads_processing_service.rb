@@ -22,7 +22,7 @@ class LeadsProcessingService
       create_and_send_email(row[:email], row[:subject], contact)
     end
 
-    @lead.update(count: @lead.contacts.count)
+    @lead.update(contacts_count: @lead.contacts.count)
   end
 
   private

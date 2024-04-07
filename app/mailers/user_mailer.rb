@@ -7,9 +7,8 @@ class UserMailer < ApplicationMailer
   end
 
   def send_followup_email(params)
-    @followup_count = params[:followup_count]
-    @name = params[:name]
-
-    mail(to: params[:email], subject: params[:subject], from: params[:sender_email], references: params[:message_id], content_type: 'text/html')
+    @body = params[:body]
+    mail(to: params[:email], subject: params[:subject], body: params[:body], from: params[:sender_email],
+         references: params[:message_id], content_type: 'text/html')
   end
 end
