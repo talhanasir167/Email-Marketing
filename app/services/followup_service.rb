@@ -23,10 +23,11 @@ class FollowupService
     {
       email: generated_email.email,
       subject: generated_email.subject,
-      name: generated_email.contact.name,
       sender_email:,
       message_id: generated_email.message_id,
-      body: followup_body(generated_email.contact.name)
+      body: followup_body(generated_email.contact.name),
+      configured_email: @lead.business.email,
+      encrypted_password: @lead.business.encrypted_password
     }
   end
 

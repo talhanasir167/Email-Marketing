@@ -11,6 +11,20 @@
     <%= form.text_field :tag_line, placeholder: "Tag line of your business", class: 'form-control', required: true %>
   </div>
 
+  <h6 class="text-center">Setup Email Configration</h6>
+
+  <div class="mb-3">
+    <%= form.label :email, class: "form-label" %>
+    <%= form.email_field :email, placeholder: "example@gmail.com", class: 'form-control', required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :password, class: "form-label" %>
+    <%= form.text_field :encrypted_password, placeholder: "your app password", class: 'form-control', required: true %>
+  </div>
+
+  <h6 class="text-center">Add Business Emails</h6>
+
   <%= form.fields_for :business_emails do |business_email_fields| %>
     <%= render "business_email_form", f: business_email_fields %>
   <% end %>
@@ -22,10 +36,10 @@
   </template>
   <div data-nested-form-target="target"></div>
 
-  <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new email</button>
+  <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new business email</button>
 
 
-  <div class="text-center">
+  <div class="text-center mt-2">
     <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

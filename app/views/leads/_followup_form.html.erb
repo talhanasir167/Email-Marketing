@@ -6,7 +6,7 @@
 
   <div class="mb-3">
     <label class="form-label text-muted">Content</label>
-    <% default_content = f.object.content.blank? && render(partial: 'leads/followups/followup', locals: { followup_count: followup_count }) || f.object.content %>
+    <% default_content = f.object.content.blank? && render(partial: 'leads/followups/followup', locals: { followup_count: followup_count, business: business }) || f.object.content %>
     <%= f.text_area :content, placeholder: 'Followup mail', value: sanitize(default_content), class: 'form-control', rows: 10, required: ( !f.object.sent ) , readonly:  ( f.object.sent ) %>
   </div>
 

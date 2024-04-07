@@ -1,5 +1,5 @@
 class Business < ApplicationRecord
-  validates :name, :tag_line, presence: true
+  validates :name, :tag_line, :email, :encrypted_password, presence: true
 
   belongs_to :user
   has_many :leads, dependent: :destroy
