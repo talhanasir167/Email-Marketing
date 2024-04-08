@@ -1,7 +1,7 @@
 class LeadsController < ApplicationController
   before_action :set_lead, only: %i[show edit update destroy]
   before_action :set_business, only: %i[new create]
-  before_action :set_followup, only: %i[followup]
+  before_action :set_followup, :previous_followups_sent?, only: %i[followup]
 
   def show; end
 
@@ -60,5 +60,12 @@ class LeadsController < ApplicationController
 
   def set_business
     @business = Business.find(params[:business_id])
+  end
+
+  def previous_followups_sent?
+    return unless @followup.lead.followups.where('id < ?', @followup.id).exists?(sent: false)
+
+    flash[:alert] = 'Cannot send followup until all previous followups are sent'
+    redirect_to @followup.lead
   end
 end
