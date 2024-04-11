@@ -19,7 +19,7 @@ class LeadsProcessingService
       next if @lead.business.leads.joins(:contacts).where(contacts: { email: row[:email] }).present?
 
       contact = find_or_create_contact(row[:name], row[:email])
-      create_and_send_email(row[:email], row[:subject], contact)
+      create_and_send_email(row, contact)
     end
 
     @lead.update(contacts_count: @lead.contacts.count)
@@ -31,15 +31,17 @@ class LeadsProcessingService
     {
       name: row['Name']&.strip&.titleize || '',
       email: row['Email'].strip.downcase,
-      subject: row['Subject'].strip
+      subject: row['Subject'].strip,
+      body: row['Body']
     }
   end
 
-  def create_and_send_email(email, subject, contact)
+  def create_and_send_email(row, contact)
     return if GeneratedEmail.where(business: @business, contact:).exists?
 
-    msg = UserMailer.send_email(email, subject, sender_email, @business).deliver_now
-    GeneratedEmail.create(email:, subject:, message_id: msg.message_id, contact:, business: @business)
+    params = mail_params(row, sender_email)
+    msg = UserMailer.send_email(params).deliver_now
+    GeneratedEmail.create(email: row[:email], subject: row[:subject], message_id: msg.message_id, contact:, business: @business)
   end
 
   def find_or_create_contact(name, email)
@@ -53,5 +55,15 @@ class LeadsProcessingService
   def sender_email
     business_name = @business.name.titlecase
     "#{business_name} <#{@lead.business_email.email}>"
+  end
+
+  def mail_params(row, sender_email)
+    {
+      email: row[:email],
+      subject: row[:subject],
+      sender_email:,
+      business: @business,
+      body: row[:body]
+    }
   end
 end
