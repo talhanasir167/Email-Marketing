@@ -1,5 +1,9 @@
-<p>Welcome <%= @email %>!</p>
+<p>Hello <%= @email %>!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>We're thrilled to have you onboard. To ensure that we have the correct email address and to activate your account, please click the button below:</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to 'Confirm My Email Address', confirmation_url(@resource, confirmation_token: @token), class: 'button' %></p>
+
+<p>If you didn't request this confirmation, you can safely ignore this email.</p>
+
+<p>Thank you! <br> Team @ Your Tech Buddies</p>
