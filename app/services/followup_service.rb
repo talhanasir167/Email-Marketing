@@ -26,8 +26,7 @@ class FollowupService
       sender_email:,
       message_id: generated_email.message_id,
       body: followup_body(generated_email.contact.name),
-      configured_email: @lead.business.email,
-      encrypted_password: @lead.business.encrypted_password
+      business: @lead.business
     }
   end
 
