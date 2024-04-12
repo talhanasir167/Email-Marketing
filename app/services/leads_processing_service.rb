@@ -23,7 +23,7 @@ class LeadsProcessingService
       contact = find_or_create_contact(row[:name], row[:email])
       params = mail_params(row, contact.id, @business.id)
 
-      ScheduleEmailWorker.perform_in(DateTime.now + rand(TIME_SPAN).minutes, params)
+      ScheduleEmailWorker.perform_in(@lead.scheduled_at + rand(TIME_SPAN).minutes, params)
     end
 
     @lead.update(contacts_count: @lead.contacts.count)

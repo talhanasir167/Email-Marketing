@@ -27,6 +27,11 @@
 
     <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new followup</button>
 
+    <div class="mb-3">
+      <label class="form-label text-muted">Schedule lead</label>
+      <%= form.datetime_field :scheduled_at, class: 'form-control', readonly: true %>
+    </div>
+
     <div class="text-center">
       <%= form.submit class: 'btn btn-primary' %>
     </div>
