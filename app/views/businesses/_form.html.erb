@@ -11,6 +11,11 @@
     <%= form.text_field :tag_line, placeholder: "Tag line of your business", class: 'form-control', required: true %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :website_url, class: "form-label" %><em> (Optional)</em>
+    <%= form.text_field :website_url, placeholder: "https://www.mywebsite.com", class: 'form-control' %>
+  </div>
+
   <h6 class="text-center">Setup Email Configration</h6>
 
   <div class="mb-3">

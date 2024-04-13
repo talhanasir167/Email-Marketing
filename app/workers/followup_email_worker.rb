@@ -2,6 +2,7 @@
 
 class FollowupEmailWorker
   include Sidekiq::Worker
+  sidekiq_options queue: 'followups'
 
   def perform(params)
     params = params.transform_keys(&:to_sym)

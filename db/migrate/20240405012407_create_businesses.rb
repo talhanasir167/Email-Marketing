@@ -3,6 +3,7 @@ class CreateBusinesses < ActiveRecord::Migration[7.0]
     create_table :businesses do |t|
       t.string :name, null: false, default: ''
       t.string :tag_line, null: false, default: ''
+      t.string :website_url
       t.references :user, null: false, foreign_key: true
       t.string :email, null: false, default: ''
       t.string :encrypted_password, null: false, default: ''

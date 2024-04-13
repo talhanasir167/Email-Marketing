@@ -14,7 +14,7 @@ class FollowupService
     GeneratedEmail.followup_emails(@lead.business, @lead.contacts).each do |generated_email|
       params = followup_params(generated_email)
 
-      FollowupEmailWorker.perform_in(DateTime.now + rand(TIME_SPAN).minutes, params)
+      FollowupEmailWorker.perform_in((DateTime.now + rand(TIME_SPAN).minutes).to_datetime, params)
     end
 
     @followup.update(sent: true)
