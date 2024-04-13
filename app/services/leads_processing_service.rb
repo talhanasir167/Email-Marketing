@@ -1,6 +1,8 @@
 class LeadsProcessingService
   require 'csv'
 
+  TIME_SPAN = 60
+
   def initialize(params)
     @lead = params[:lead]
     @csv = params[:csv_file]
@@ -19,7 +21,9 @@ class LeadsProcessingService
       next if @lead.business.leads.joins(:contacts).where(contacts: { email: row[:email] }).present?
 
       contact = find_or_create_contact(row[:name], row[:email])
-      create_and_send_email(row, contact)
+      params = mail_params(row, contact.id, @business.id)
+
+      ScheduleEmailWorker.perform_in((@lead.scheduled_at + rand(TIME_SPAN).minutes).to_datetime, params)
     end
 
     @lead.update(contacts_count: @lead.contacts.count)
@@ -36,14 +40,6 @@ class LeadsProcessingService
     }
   end
 
-  def create_and_send_email(row, contact)
-    return if GeneratedEmail.where(business: @business, contact:).exists?
-
-    params = mail_params(row, sender_email)
-    msg = UserMailer.send_email(params).deliver_now
-    GeneratedEmail.create(email: row[:email], subject: row[:subject], message_id: msg.message_id, contact:, business: @business)
-  end
-
   def find_or_create_contact(name, email)
     contact = @lead.contacts.find_or_initialize_by(email:)
     contact.name = name if contact.name.blank?
@@ -57,13 +53,14 @@ class LeadsProcessingService
     "#{business_name} <#{@lead.business_email.email}>"
   end
 
-  def mail_params(row, sender_email)
+  def mail_params(row, contact_id, business_id)
     {
-      email: row[:email],
-      subject: row[:subject],
-      sender_email:,
-      business: @business,
-      body: row[:body]
+      'email' => row[:email],
+      'subject' => row[:subject],
+      'body' => row[:body],
+      'sender_email' => sender_email,
+      'business_id' => business_id,
+      'contact_id' => contact_id
     }
   end
 end

@@ -45,6 +45,7 @@ class BusinessesController < ApplicationController
   end
 
   def business_params
-    params.require(:business).permit(:name, :tag_line, :email, :encrypted_password, business_emails_attributes: %i[id _destroy email])
+    params.require(:business).permit(:name, :tag_line, :website_url, :email, :encrypted_password,
+                                     business_emails_attributes: %i[id _destroy email])
   end
 end

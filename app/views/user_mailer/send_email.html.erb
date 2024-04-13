@@ -6,6 +6,11 @@
   <br/>
   <div>
     <div style="margin-bottom: 8px"><%= @business.name %></div>
-    <div><%= @business.tag_line %></div>
+    <div style="margin-bottom: 8px"><%= @business.tag_line %></div>
+    <div>
+      <% if @business.website_url.present? %>
+        <a href="<%= @business&.website_url %>" target="_blank"><%= @business&.website_url %></a>
+      <% end %>
+    </div>
   </div>
 </div>

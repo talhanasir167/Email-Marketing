@@ -17,7 +17,7 @@
   <table class="table mt-3">
     <thead class="table-light">
       <tr>
-        <td> Generated at </td>
+        <td> Scheduled at </td>
         <td> Lead Count </td>
         <td> First Follow-up </td>
         <td> Second Follow-up </td>
@@ -29,7 +29,7 @@
     <tbody>
       <% @business.leads.each do |lead| %>
         <tr class="border-bottom">
-          <td> <%= lead.created_at.strftime("On %A %d-%b-%Y") %> </td>
+          <td> <%= lead.scheduled_at.strftime("For %A %d-%b-%Y") %> </td>
           <td> 
             <div><%= lead.contacts_count %><div>
             <div><%= link_to "Show this lead", lead, class: "text-primary" %></div>

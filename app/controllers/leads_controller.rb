@@ -55,7 +55,7 @@ class LeadsController < ApplicationController
   end
 
   def lead_params
-    params.require(:lead).permit(:business_email_id, followups_attributes: %i[id _destroy sent_at content])
+    params.require(:lead).permit(:business_email_id, :scheduled_at, followups_attributes: %i[id _destroy sent_at content])
   end
 
   def set_business

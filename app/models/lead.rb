@@ -1,5 +1,5 @@
 class Lead < ApplicationRecord
-  validates :contacts_count, presence: true
+  validates :contacts_count, :scheduled_at, presence: true
 
   belongs_to :business
   belongs_to :business_email

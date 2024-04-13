@@ -18,16 +18,22 @@
   <div class="row m-0 py-1 border-bottom bg-light fw-semibold mt-3">
     <div class="col">Name</div>
     <div class="col">Email</div>
+    <div class="col">Email Subject</div>
     <div class="col">Status</div>
     <div class="col">Update Status</div>
   </div>
-  <% @lead.contacts.each do |contact| %>
+  <% @lead.contacts.includes(:generated_emails) .each do |contact| %>
     <%= turbo_frame_tag "edit_contact_#{contact.id}_frame" do %>
       <%= render 'shared/toast_notification' %>
       <%= render "shared/error_messages", object: contact %>
       <div class="row py-1 border-bottom m-0">
         <div class="col"><%= contact.name %></div>
         <div class="col"><%= contact.email %></div>
+        <div class="col">
+          <% if contact.generated_emails.exists? %>
+            <%= contact.generated_emails.pluck(:subject).join %>
+          <% end %>
+        </div>
         <div class="col"><%= contact.active ? 'Active' : 'Inactive' %></div>
         <div class="col"><%= link_to "Edit this contact", edit_contact_path(contact) %></div>
       </div>
