@@ -1,24 +1,56 @@
-# README
+# Email Marketing Application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Welcome to the Email Marketing Application! This application is designed to streamline your email marketing efforts by allowing you to send bulk emails to multiple businesses, schedule follow-ups, and manage your email credentials seamlessly.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- **Bulk Email Sending:** Send bulk emails to multiple businesses with ease.
+- **Scheduled Emails/Follow-ups:** Schedule emails and follow-ups for future delivery.
+- **Dynamic Email Setup:** Users can update business emails and email credentials on the fly.
+- **Authentication:** Utilizes Devise for secure user authentication.
+- **Background Processing:** Sidekiq is integrated for efficient background processing of emails.
+- **Local Email Testing:** Includes Letter Opener gem for easy testing of emails locally.
 
-* System dependencies
+## Prerequisites
 
-* Configuration
+Before you begin, ensure you have the following installed on your machine:
 
-* Database creation
+- Ruby 3.2.2
+- Rails 7.0.8
+- PostgreSQL
 
-* Database initialization
+## Installation
 
-* How to run the test suite
+1. Clone the repository:
 
-* Services (job queues, cache servers, search engines, etc.)
+   ```bash
+   git clone https://github.com/your-username/email-marketing.git
 
-* Deployment instructions
+2. Navigate to the project directory:
+   
+   ```bash
+   cd gpt-email
+   
+3. Install dependencies:
+   
+   ```bash
+   bundle install
 
-* ...
+4. Set up the database:
+
+   ```bash
+   rake db:setup
+
+5. Start the Sidekiq server for background processing:
+
+   ```bash
+   bundle exec sidekiq
+
+6. Start the Rails server:
+
+   ```bash
+   rails server
+
+7. Open your web browser and visit http://localhost:3000 to access the application.
+
+
