@@ -24,7 +24,7 @@ Before you begin, ensure you have the following installed on your machine:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/email-marketing.git
+   git clone https://github.com/usman-zulfiqar065/Email-Marketing-Application.git
 
 2. Navigate to the project directory:
    
