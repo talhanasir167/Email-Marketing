@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_27_003858) do
   end
 
   create_table "followups", force: :cascade do |t|
-    t.datetime "sent_at", default: "2024-04-27 00:39:15", null: false
+    t.datetime "sent_at", default: "2024-04-27 00:52:25", null: false
     t.text "content", default: "", null: false
     t.boolean "sent", default: false, null: false
     t.bigint "lead_id", null: false
@@ -82,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_27_003858) do
 
   create_table "leads", force: :cascade do |t|
     t.integer "contacts_count", default: 0
-    t.datetime "scheduled_at", default: "2024-04-26 23:49:08", null: false
+    t.datetime "scheduled_at", default: "2024-04-27 00:52:25", null: false
     t.bigint "business_id", null: false
     t.bigint "business_email_id", null: false
     t.bigint "city_id", null: false
@@ -97,7 +97,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_27_003858) do
 
   create_table "services", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.text "description", default: "", null: false
     t.bigint "business_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

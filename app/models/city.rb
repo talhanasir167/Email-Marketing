@@ -1,5 +1,5 @@
 class City < ApplicationRecord
-  validates :namae, presence: true
+  validates :name, presence: true
 
   belongs_to :country
 end

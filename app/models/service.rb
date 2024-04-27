@@ -1,5 +1,5 @@
 class Service < ApplicationRecord
-  validates :namae, :description, presence: true
+  validates :name, presence: true
 
   belongs_to :business
 end
