@@ -28,6 +28,21 @@
     <%= form.text_field :encrypted_password, placeholder: "your app password", class: 'form-control', required: true %>
   </div>
 
+  <h6 class="text-center">Add services</h6>
+
+  <%= form.fields_for :services do |service_fields| %>
+    <%= render "service_form", f: service_fields %>
+  <% end %>
+
+  <template data-nested-form-target="template">
+    <%= form.fields_for :services, Service.new, child_index: 'NEW_RECORD' do |service_fields| %>
+      <%= render "service_form", f: service_fields %>
+    <% end %>
+  </template>
+  <div data-nested-form-target="target"></div>
+
+  <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new service</button>
+
   <h6 class="text-center">Add Business Emails</h6>
 
   <%= form.fields_for :business_emails do |business_email_fields| %>

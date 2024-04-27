@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/followups/:id', to: 'leads#followup', as: 'followup'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  authenticate :user do
+  authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
 end
