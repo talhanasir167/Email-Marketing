@@ -3,6 +3,8 @@ class Lead < ApplicationRecord
 
   belongs_to :business
   belongs_to :business_email
+  belongs_to :city
+  belongs_to :title
   has_many :contacts, dependent: :destroy
   has_many :followups, dependent: :destroy
 

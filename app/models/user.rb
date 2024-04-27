@@ -7,4 +7,11 @@ class User < ApplicationRecord
   validates :name, :email, presence: true
 
   has_many :businesses, dependent: :destroy
+
+  ROLES = {
+    sales_manager: 0,
+    admin: 1
+  }.freeze
+
+  enum role: ROLES
 end
