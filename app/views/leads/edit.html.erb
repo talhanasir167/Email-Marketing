@@ -1,61 +1,11 @@
-<div class="d-flex flex-column p-5 m-auto w-70rem mt-5  shadow">
-  <h3 class="text-center">Edit Lead</h3>
-
-  <%= form_with(model:@lead, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' } ) do |form| %>
+<%= turbo_frame_tag "edit_lead_#{@lead.id}_frame" do %>
+  <%= form_with(model: @lead) do |form| %>
     <%= render "shared/error_messages", object: @lead %>
-
-    <div class="mb-3">
-      <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
-      <%= form.text_field :business_id, value: @lead.business.name, class: 'form-control', readonly: true %>
-    </div>
-
-    <div class="mb-3">
-      <label for="business_email_id" class="form-label text-muted"><%= form.label :business_email_id %></label>
-      <%= form.text_field :business_email, value: @lead.business_email.email, class: 'form-control', readonly: true %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.label :service, class: 'form-label text-muted' %><br />
-      <%= form.select :serivce_id, @lead.business.services.all.pluck(:name, :id), {}, class: "form-select" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.label :title, class: 'form-label text-muted' %><br />
-      <%= form.select :title_id, Title.all.pluck(:name, :id), {}, class: "form-select" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.label :country, class: 'form-label text-muted' %><br />
-      <%= form.select :country_id, Country.all.pluck(:name, :id), {}, class: "form-select" %>
-    </div>
-
-    <%= form.fields_for :followups do |followup_fields| %>
-      <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size, business: @lead.business %>
-    <% end %>
-
-    <template data-nested-form-target="template">
-      <%= form.fields_for :followups, @lead.followups.new, child_index: 'NEW_RECORD' do |followup_fields| %>
-        <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size, business: @lead.business %>
-      <% end %>
-    </template>
-    <div data-nested-form-target="target"></div>
-
-    <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new followup</button>
-
-    <div class="mb-3">
-      <label class="form-label text-muted">Schedule lead</label>
-      <%= form.datetime_field :scheduled_at, class: 'form-control', readonly: true %>
-    </div>
-
-    <div class="text-center">
-      <%= form.submit class: 'btn btn-primary' %>
+    <div class="row py-1 border-bottom">
+      <div class="col"><%= form.text_field :name, class: 'form-control' %></div>
+      <div class="col"><%= form.text_field :email, readonly: true, class: 'form-control' %></div>
+      <div class="col align-self-center"><%= form.check_box :active, class: "form-check-input" %></div>
+      <div class="col"><%= form.submit class: "btn btn-link p-0" %></div>
     </div>
   <% end %>
-
-  <br>
-
-  <div>
-    <%= link_to "Show this lead", @lead %> |
-    <%= link_to "Back to business", @lead.business %>
-  </div>
-</div>
+<% end %>

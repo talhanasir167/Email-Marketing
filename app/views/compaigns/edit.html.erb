@@ -1,0 +1,66 @@
+<div class="d-flex flex-column p-5 m-auto w-70rem mt-5  shadow">
+  <h3 class="text-center">Edit compaign</h3>
+
+  <%= form_with(model:@compaign, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' } ) do |form| %>
+    <%= render "shared/error_messages", object: @compaign %>
+
+    <div class="mb-3">
+      <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
+      <%= form.text_field :business_id, value: @compaign.business.name, class: 'form-control', readonly: true %>
+    </div>
+
+    <div class="mb-3">
+      <label for="business_email_id" class="form-label text-muted"><%= form.label :business_email_id %></label>
+      <%= form.text_field :business_email, value: @compaign.business_email.email, class: 'form-control', readonly: true %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :service, class: 'form-label text-muted' %><br />
+      <%= form.select :serivce_id, @compaign.business.services.all.pluck(:name, :id), {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :title, class: 'form-label text-muted' %><br />
+      <%= form.select :title_id, Title.all.pluck(:name, :id), {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :platform, class: 'form-label text-muted' %><br />
+      <%= form.select :platform_id, Platform.all.pluck(:name, :id), {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :country, class: 'form-label text-muted' %><br />
+      <%= form.select :country_id, Country.all.pluck(:name, :id), {}, class: "form-select" %>
+    </div>
+
+    <%= form.fields_for :followups do |followup_fields| %>
+      <%= render "followup_form", f: followup_fields, followup_count: @compaign.followups.size, business: @compaign.business %>
+    <% end %>
+
+    <template data-nested-form-target="template">
+      <%= form.fields_for :followups, @compaign.followups.new, child_index: 'NEW_RECORD' do |followup_fields| %>
+        <%= render "followup_form", f: followup_fields, followup_count: @compaign.followups.size, business: @compaign.business %>
+      <% end %>
+    </template>
+    <div data-nested-form-target="target"></div>
+
+    <button type="button" data-action="nested-form#add", class="btn border btn-light">Add new followup</button>
+
+    <div class="mb-3">
+      <label class="form-label text-muted">Schedule compaign</label>
+      <%= form.datetime_field :scheduled_at, class: 'form-control', readonly: true %>
+    </div>
+
+    <div class="text-center">
+      <%= form.submit class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+  <br>
+
+  <div>
+    <%= link_to "Show this compaign", @compaign %> |
+    <%= link_to "Back to business", @compaign.business %>
+  </div>
+</div>

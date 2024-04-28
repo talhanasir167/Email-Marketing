@@ -1,4 +1,4 @@
-module LeadsHelper
+module CompaignsHelper
   def display_followup_status(followup, followup_count)
     if followup.sent
       content_tag(:span, 'sent', class: 'bg-success px-2 py-1 text-white rounded-1')

@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  helper LeadsHelper
+  helper CompaignsHelper
 
   def send_email(params)
     @body = params[:body]
