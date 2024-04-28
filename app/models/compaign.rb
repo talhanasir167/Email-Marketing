@@ -7,7 +7,7 @@ class Compaign < ApplicationRecord
   belongs_to :title
   belongs_to :service
   belongs_to :platform
-  has_many :contacts, dependent: :destroy
+  has_many :leads, dependent: :destroy
   has_many :followups, dependent: :destroy
 
   accepts_nested_attributes_for :followups, reject_if: :all_blank, allow_destroy: true

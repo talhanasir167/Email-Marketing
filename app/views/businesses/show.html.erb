@@ -31,7 +31,7 @@
         <tr class="border-bottom">
           <td> <%= compaign.scheduled_at.strftime("For %A %d-%b-%Y") %> </td>
           <td> 
-            <div><%= compaign.contacts_count %><div>
+            <div><%= compaign.leads_count %><div>
             <div><%= link_to "Show this compaign", compaign, class: "text-primary" %></div>
           </td>
           <% compaign.followups.each_with_index do |followup, i| %>

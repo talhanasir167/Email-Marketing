@@ -1,4 +1,4 @@
-class Contact < ApplicationRecord
+class Lead < ApplicationRecord
   validates :email, presence: true
   validates :active, inclusion: { in: [true, false] }
 

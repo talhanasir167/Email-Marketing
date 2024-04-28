@@ -19,15 +19,15 @@ class CompaignsProcessingService
 
     CSV.foreach(file_path, headers: true) do |row|
       row = parocessed_row(row)
-      next if @business.compaigns.joins(:contacts).where(service: @service, contacts: { email: row[:email] }).exists?
+      next if @business.compaigns.joins(:leads).where(service: @service, leads: { email: row[:email] }).exists?
 
-      contact = find_or_create_contact(row[:name], row[:email])
-      params = mail_params(row, contact.id, @business.id)
+      lead = find_or_create_lead(row[:name], row[:email])
+      params = mail_params(row, lead.id, @business.id)
 
       ScheduleEmailWorker.perform_in((@compaign.scheduled_at + rand(TIME_SPAN).minutes).to_datetime, params)
     end
 
-    @compaign.update(contacts_count: @compaign.contacts.count)
+    @compaign.update(leads_count: @compaign.leads.count)
   end
 
   private
@@ -41,12 +41,12 @@ class CompaignsProcessingService
     }
   end
 
-  def find_or_create_contact(name, email)
-    contact = @compaign.contacts.find_or_initialize_by(email:)
-    contact.name = name if contact.name.blank?
-    contact.save
+  def find_or_create_lead(name, email)
+    lead = @compaign.leads.find_or_initialize_by(email:)
+    lead.name = name if lead.name.blank?
+    lead.save
 
-    contact
+    lead
   end
 
   def sender_email
@@ -54,14 +54,14 @@ class CompaignsProcessingService
     "#{business_name} <#{@compaign.business_email.email}>"
   end
 
-  def mail_params(row, contact_id, business_id)
+  def mail_params(row, lead_id, business_id)
     {
       'email' => row[:email],
       'subject' => row[:subject],
       'body' => row[:body],
       'sender_email' => sender_email,
       'business_id' => business_id,
-      'contact_id' => contact_id
+      'lead_id' => lead_id
     }
   end
 end

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :compaigns, shallow: true, except: %i[index]
   end
 
-  resources :contacts, only: %i[edit update]
+  resources :leads, only: %i[edit update]
 
   get '/followups/:id', to: 'compaigns#followup', as: 'followup'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

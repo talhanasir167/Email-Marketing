@@ -48,7 +48,7 @@ class CompaignsController < ApplicationController
   private
 
   def set_compaign
-    @compaign = compaign.find(params[:id])
+    @compaign = Compaign.find(params[:id])
   end
 
   def set_followup
