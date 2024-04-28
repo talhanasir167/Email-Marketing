@@ -56,7 +56,7 @@ class CompaignsController < ApplicationController
   end
 
   def compaign_params
-    params.require(:compaign).permit(:business_email_id, :service_id, :title_id, :country_id, :scheduled_at,
+    params.require(:compaign).permit(:business_email_id, :service_id, :platform_id, :title_id, :country_id, :scheduled_at,
                                      followups_attributes: %i[id _destroy sent_at content])
   end
 
