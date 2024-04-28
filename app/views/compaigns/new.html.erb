@@ -2,8 +2,8 @@
   <h3 class="text-center">Send Emails</h3>
 
   <div class="text-start">
-    <%= form_with(model: [ @business, @lead ], data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %>
-      <%= render "shared/error_messages", object: @lead %>
+    <%= form_with(model: [ @business, @compaign ], data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %>
+      <%= render "shared/error_messages", object: @compaign %>
 
       <div class="mb-3">
         <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
@@ -31,12 +31,12 @@
       </div>
 
       <%= form.fields_for :followups do |followup_fields| %>
-        <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size, business: @business %>
+        <%= render "followup_form", f: followup_fields, followup_count: @compaign.followups.size, business: @business %>
       <% end %>
 
       <template data-nested-form-target="template">
         <%= form.fields_for :followups, Followup.new, child_index: 'NEW_RECORD' do |followup_fields| %>
-          <%= render "followup_form", f: followup_fields, followup_count: @lead.followups.size, business: @business %>
+          <%= render "followup_form", f: followup_fields, followup_count: @compaign.followups.size, business: @business %>
         <% end %>
       </template>
       <div data-nested-form-target="target"></div>
@@ -49,7 +49,7 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label text-muted">Schedule lead</label>
+        <label class="form-label text-muted">Schedule compaign</label>
         <%= form.datetime_field :scheduled_at, class: 'form-control', required: true %>
       </div>
 
@@ -59,6 +59,6 @@
     <% end %>
   </div>
 
-  <%= link_to "Back to business", @lead.business %>
+  <%= link_to "Back to business", @compaign.business %>
 </div>
 

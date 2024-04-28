@@ -3,5 +3,5 @@ class Contact < ApplicationRecord
   validates :active, inclusion: { in: [true, false] }
 
   has_many :generated_emails, dependent: :destroy
-  belongs_to :lead
+  belongs_to :compaign
 end

@@ -1,13 +1,13 @@
-class LeadsProcessingService
+class CompaignsProcessingService
   require 'csv'
 
   TIME_SPAN = 60
 
   def initialize(params)
-    @lead = params[:lead]
+    @compaign = params[:compaign]
     @csv = params[:csv_file]
-    @business = @lead.business
-    @service = @lead.service
+    @business = @compaign.business
+    @service = @compaign.service
   end
 
   def call!
@@ -19,15 +19,15 @@ class LeadsProcessingService
 
     CSV.foreach(file_path, headers: true) do |row|
       row = parocessed_row(row)
-      next if @business.leads.joins(:contacts).where(service: @service, contacts: { email: row[:email] }).exists?
+      next if @business.compaigns.joins(:contacts).where(service: @service, contacts: { email: row[:email] }).exists?
 
       contact = find_or_create_contact(row[:name], row[:email])
       params = mail_params(row, contact.id, @business.id)
 
-      ScheduleEmailWorker.perform_in((@lead.scheduled_at + rand(TIME_SPAN).minutes).to_datetime, params)
+      ScheduleEmailWorker.perform_in((@compaign.scheduled_at + rand(TIME_SPAN).minutes).to_datetime, params)
     end
 
-    @lead.update(contacts_count: @lead.contacts.count)
+    @compaign.update(contacts_count: @compaign.contacts.count)
   end
 
   private
@@ -42,7 +42,7 @@ class LeadsProcessingService
   end
 
   def find_or_create_contact(name, email)
-    contact = @lead.contacts.find_or_initialize_by(email:)
+    contact = @compaign.contacts.find_or_initialize_by(email:)
     contact.name = name if contact.name.blank?
     contact.save
 
@@ -51,7 +51,7 @@ class LeadsProcessingService
 
   def sender_email
     business_name = @business.name.titlecase
-    "#{business_name} <#{@lead.business_email.email}>"
+    "#{business_name} <#{@compaign.business_email.email}>"
   end
 
   def mail_params(row, contact_id, business_id)

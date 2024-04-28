@@ -5,7 +5,7 @@ class ContactsController < ApplicationController
 
   def update
     if @contact.update(contact_params)
-      redirect_to @contact.lead, notice: 'Contact was successfully updated.'
+      redirect_to @contact.compaign, notice: 'Contact was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end

@@ -1,6 +1,6 @@
 <div class="p-3 d-flex flex-wrap justify-content-between">
   <div class="fs-4 fw-semibold"><%= @business.name %> | <%= @business.tag_line %></div>
-  <div><%= link_to "New lead", new_business_lead_path(@business) %></div>
+  <div><%= link_to "New compaign", new_business_compaign_path(@business) %></div>
 </div>
 
 <div class="m-5">
@@ -13,12 +13,12 @@
 </div>
 
 <div class="m-5">
-  <div class="fw-semibold ">Leads: </div>
+  <div class="fw-semibold ">compaigns: </div>
   <table class="table mt-3">
     <thead class="table-light">
       <tr>
         <td> Scheduled at </td>
-        <td> Lead Count </td>
+        <td> compaign Count </td>
         <td> First Follow-up </td>
         <td> Second Follow-up </td>
         <td> Third Follow-up </td>
@@ -27,14 +27,14 @@
       </tr>
     </thead>
     <tbody>
-      <% @business.leads.each do |lead| %>
+      <% @business.compaigns.each do |compaign| %>
         <tr class="border-bottom">
-          <td> <%= lead.scheduled_at.strftime("For %A %d-%b-%Y") %> </td>
+          <td> <%= compaign.scheduled_at.strftime("For %A %d-%b-%Y") %> </td>
           <td> 
-            <div><%= lead.contacts_count %><div>
-            <div><%= link_to "Show this lead", lead, class: "text-primary" %></div>
+            <div><%= compaign.contacts_count %><div>
+            <div><%= link_to "Show this compaign", compaign, class: "text-primary" %></div>
           </td>
-          <% lead.followups.each_with_index do |followup, i| %>
+          <% compaign.followups.each_with_index do |followup, i| %>
             <td> 
               <div><%= followup.sent_at.strftime("On %A %d-%b-%Y") %></div>
               <div><%= display_followup_status(followup, i+1 ) %></div>

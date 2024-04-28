@@ -3,7 +3,7 @@ class FollowupService
 
   def initialize(followup)
     @followup = followup
-    @lead = @followup.lead
+    @compaign = @followup.compaign
   end
 
   def call!
@@ -11,7 +11,7 @@ class FollowupService
   end
 
   def process_followups
-    GeneratedEmail.followup_emails(@lead.business, @lead.contacts).each do |generated_email|
+    GeneratedEmail.followup_emails(@compaign.business, @compaign.contacts).each do |generated_email|
       params = followup_params(generated_email)
 
       FollowupEmailWorker.perform_in((DateTime.now + rand(TIME_SPAN).minutes).to_datetime, params)
@@ -29,13 +29,13 @@ class FollowupService
       'sender_email' => sender_email,
       'message_id' => generated_email.message_id,
       'body' => followup_body(generated_email.contact.name),
-      'business' => @lead.business.id
+      'business' => @compaign.business.id
     }
   end
 
   def sender_email
-    business_name = @lead.business.name.titlecase
-    "#{business_name} <#{@lead.business_email.email}>"
+    business_name = @compaign.business.name.titlecase
+    "#{business_name} <#{@compaign.business_email.email}>"
   end
 
   def followup_body(name)

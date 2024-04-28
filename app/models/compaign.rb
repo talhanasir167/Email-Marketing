@@ -1,11 +1,12 @@
-class Lead < ApplicationRecord
-  validates :contacts_count, :scheduled_at, presence: true
+class Compaign < ApplicationRecord
+  validates :leads_count, :scheduled_at, presence: true
 
   belongs_to :business
   belongs_to :business_email
   belongs_to :country
   belongs_to :title
   belongs_to :service
+  belongs_to :platform
   has_many :contacts, dependent: :destroy
   has_many :followups, dependent: :destroy
 

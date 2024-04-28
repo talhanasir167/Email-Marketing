@@ -1,6 +1,6 @@
 <div class="p-5">
   <div class="d-flex flex-wrap justify-content-between">
-    <% @lead.followups.each_with_index do |followup, i| %>
+    <% @compaign.followups.each_with_index do |followup, i| %>
       <div class="border border-2 w-16rem">
         <div class="fs-5 fw-semibold bg-light p-2"><%= num_to_text(i+1).titlecase %> Follow-up</div>
         <div class="p-2"><%= followup.sent_at.strftime("On %A %d-%b-%Y") %></div>
@@ -10,9 +10,9 @@
   </div>
 
   <div class="d-flex flex-wrap bg-light justify-content-between p-3 mt-5" >
-    <div class="fw-semibold">Contacts (<%= @lead.contacts_count %>)</div>
-    <div><%= link_to "Edit this lead", edit_lead_path(@lead) %></div>
-    <div><%= button_to "Destroy this lead", @lead, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
+    <div class="fw-semibold">Contacts (<%= @compaign.contacts_count %>)</div>
+    <div><%= link_to "Edit this compaign", edit_compaign_path(@compaign) %></div>
+    <div><%= button_to "Destroy this compaign", @compaign, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-danger" %></div>
   </div>
 
   <div class="row m-0 py-1 border-bottom bg-light fw-semibold mt-3">
@@ -22,7 +22,7 @@
     <div class="col">Status</div>
     <div class="col">Update Status</div>
   </div>
-  <% @lead.contacts.includes(:generated_emails) .each do |contact| %>
+  <% @compaign.contacts.includes(:generated_emails) .each do |contact| %>
     <%= turbo_frame_tag "edit_contact_#{contact.id}_frame" do %>
       <%= render 'shared/toast_notification' %>
       <%= render "shared/error_messages", object: contact %>
@@ -42,5 +42,5 @@
 </div>
 
 <div>
-  <%= link_to "Back to business", @lead.business %>
+  <%= link_to "Back to business", @compaign.business %>
 </div>
