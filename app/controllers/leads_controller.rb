@@ -1,3 +1,4 @@
+require 'csv'
 class LeadsController < ApplicationController
   before_action :set_lead, only: %i[show edit update destroy]
   before_action :set_business, only: %i[new create]
@@ -13,7 +14,7 @@ class LeadsController < ApplicationController
   def create
     @lead = @business.leads.new(lead_params)
 
-    if @lead.save
+    if validate_csv_headers(params[:lead][:csv_file]) && @lead.save
       LeadsProcessingService.new({ lead: @lead, csv_file: params[:lead][:csv_file] }).call!
       redirect_to @lead, notice: 'Lead was successfully created and is processed'
     else
@@ -68,5 +69,17 @@ class LeadsController < ApplicationController
 
     flash[:alert] = 'Cannot send followup until all previous followups are sent'
     redirect_to @followup.lead
+  end
+
+  def validate_csv_headers(file)
+    require_headers = %w[Name Email Subject Body]
+
+    CSV.foreach(file, headers: true) do |row|
+      missing_headers = require_headers - row.headers
+      return true unless missing_headers.any?
+
+      @lead.errors.add(:base, "Missing headers: #{missing_headers.join(', ')}")
+      return false
+    end
   end
 end

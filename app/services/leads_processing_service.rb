@@ -7,6 +7,7 @@ class LeadsProcessingService
     @lead = params[:lead]
     @csv = params[:csv_file]
     @business = @lead.business
+    @service = @lead.service
   end
 
   def call!
@@ -18,7 +19,7 @@ class LeadsProcessingService
 
     CSV.foreach(file_path, headers: true) do |row|
       row = parocessed_row(row)
-      next if @lead.business.leads.joins(:contacts).where(contacts: { email: row[:email] }).present?
+      next if @business.leads.joins(:contacts).where(service: @service, contacts: { email: row[:email] }).exists?
 
       contact = find_or_create_contact(row[:name], row[:email])
       params = mail_params(row, contact.id, @business.id)
