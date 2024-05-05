@@ -3,7 +3,7 @@ class UserMailer < ApplicationMailer
 
   def send_email(params)
     @body = params[:body]
-    @business = params[:business]
+    @business = Business.find(params[:business_id])
 
     mail(to: params[:email], subject: params[:subject], from: params[:sender_email],
          delivery_method_options: delivery_options)

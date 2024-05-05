@@ -22,8 +22,7 @@ class CompaignsProcessingService
       next if @business.compaigns.joins(:leads).where(service: @service, leads: { email: row[:email] }).exists?
 
       lead = find_or_create_lead(row[:name], row[:email])
-      params = mail_params(row, lead.id, @business.id)
-
+      params = mail_params(row, lead.id)
       ScheduleEmailWorker.perform_in((@compaign.scheduled_at + rand(TIME_SPAN).minutes).to_datetime, params)
     end
 
@@ -54,14 +53,15 @@ class CompaignsProcessingService
     "#{business_name} <#{@compaign.business_email.email}>"
   end
 
-  def mail_params(row, lead_id, business_id)
+  def mail_params(row, lead_id)
     {
       'email' => row[:email],
       'subject' => row[:subject],
       'body' => row[:body],
       'sender_email' => sender_email,
-      'business_id' => business_id,
-      'lead_id' => lead_id
+      'business_id' => @business.id,
+      'lead_id' => lead_id,
+      'service_id' => @service.id
     }
   end
 end

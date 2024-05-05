@@ -3,7 +3,6 @@ class Business < ApplicationRecord
 
   belongs_to :user
   has_many :compaigns, dependent: :destroy
-  has_many :generated_emails, dependent: :destroy
   has_many :business_emails, dependent: :destroy
   has_many :services, dependent: :destroy
 

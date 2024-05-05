@@ -5,7 +5,7 @@ class CreateGeneratedEmails < ActiveRecord::Migration[7.0]
       t.string :subject, null: false, default: ''
       t.string :message_id, null: false, default: ''
       t.references :lead, null: false, foreign_key: true
-      t.references :business, null: false, foreign_key: true
+      t.references :service, null: false, foreign_key: true
 
       t.timestamps
     end

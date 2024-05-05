@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
   end
 
   create_table "followups", force: :cascade do |t|
-    t.datetime "sent_at", default: "2024-04-28 11:14:13", null: false
+    t.datetime "sent_at", default: "2024-05-05 22:06:29", null: false
     t.text "content", default: "", null: false
     t.boolean "sent", default: false, null: false
     t.bigint "compaign_id", null: false
@@ -74,11 +74,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
     t.string "subject", default: "", null: false
     t.string "message_id", default: "", null: false
     t.bigint "lead_id", null: false
-    t.bigint "business_id", null: false
+    t.bigint "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_id"], name: "index_generated_emails_on_business_id"
     t.index ["lead_id"], name: "index_generated_emails_on_lead_id"
+    t.index ["service_id"], name: "index_generated_emails_on_service_id"
   end
 
   create_table "leads", force: :cascade do |t|
@@ -143,8 +143,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
   add_foreign_key "compaigns", "services"
   add_foreign_key "compaigns", "titles"
   add_foreign_key "followups", "compaigns"
-  add_foreign_key "generated_emails", "businesses"
   add_foreign_key "generated_emails", "leads"
+  add_foreign_key "generated_emails", "services"
   add_foreign_key "leads", "compaigns"
   add_foreign_key "services", "businesses"
 end
