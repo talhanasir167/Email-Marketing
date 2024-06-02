@@ -6,11 +6,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :businesses do
-    resources :compaigns, shallow: true, except: %i[index]
-  end
-
-  resources :leads, only: %i[edit update]
+  resources :businesses
+  resources :compaigns, except: %i[index]
 
   get '/followups/:id', to: 'compaigns#followup', as: 'followup'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -35,22 +35,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
   end
 
   create_table "compaigns", force: :cascade do |t|
+    t.string "email_subject", default: "", null: false
+    t.text "email_body", default: "", null: false
     t.integer "leads_count", default: 0
-    t.datetime "scheduled_at", default: "2024-04-28 10:50:43", null: false
-    t.bigint "business_id", null: false
+    t.datetime "scheduled_at", default: "2024-06-02 01:04:51", null: false
     t.bigint "business_email_id", null: false
     t.bigint "service_id", null: false
-    t.bigint "country_id", null: false
-    t.bigint "title_id", null: false
-    t.bigint "platform_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["business_email_id"], name: "index_compaigns_on_business_email_id"
-    t.index ["business_id"], name: "index_compaigns_on_business_id"
-    t.index ["country_id"], name: "index_compaigns_on_country_id"
-    t.index ["platform_id"], name: "index_compaigns_on_platform_id"
     t.index ["service_id"], name: "index_compaigns_on_service_id"
-    t.index ["title_id"], name: "index_compaigns_on_title_id"
   end
 
   create_table "countries", force: :cascade do |t|
@@ -60,7 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
   end
 
   create_table "followups", force: :cascade do |t|
-    t.datetime "sent_at", default: "2024-05-05 22:06:29", null: false
+    t.datetime "sent_at", default: "2024-06-02 01:04:51", null: false
     t.text "content", default: "", null: false
     t.boolean "sent", default: false, null: false
     t.bigint "compaign_id", null: false
@@ -69,32 +63,36 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
     t.index ["compaign_id"], name: "index_followups_on_compaign_id"
   end
 
-  create_table "generated_emails", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "subject", default: "", null: false
-    t.string "message_id", default: "", null: false
-    t.bigint "lead_id", null: false
-    t.bigint "service_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lead_id"], name: "index_generated_emails_on_lead_id"
-    t.index ["service_id"], name: "index_generated_emails_on_service_id"
-  end
-
   create_table "leads", force: :cascade do |t|
-    t.string "name", default: ""
+    t.string "name", default: "", null: false
     t.string "email", default: "", null: false
-    t.boolean "active", default: true
-    t.bigint "compaign_id", null: false
+    t.text "bio", default: ""
+    t.bigint "country_id", null: false
+    t.bigint "title_id", null: false
+    t.bigint "platform_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["compaign_id"], name: "index_leads_on_compaign_id"
+    t.index ["country_id"], name: "index_leads_on_country_id"
+    t.index ["platform_id"], name: "index_leads_on_platform_id"
+    t.index ["title_id"], name: "index_leads_on_title_id"
   end
 
   create_table "platforms", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "processed_leads", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.string "message_id", default: "", null: false
+    t.string "email_subject", default: "", null: false
+    t.bigint "lead_id", null: false
+    t.bigint "compaign_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["compaign_id"], name: "index_processed_leads_on_compaign_id"
+    t.index ["lead_id"], name: "index_processed_leads_on_lead_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -137,14 +135,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_111345) do
   add_foreign_key "business_emails", "businesses"
   add_foreign_key "businesses", "users"
   add_foreign_key "compaigns", "business_emails"
-  add_foreign_key "compaigns", "businesses"
-  add_foreign_key "compaigns", "countries"
-  add_foreign_key "compaigns", "platforms"
   add_foreign_key "compaigns", "services"
-  add_foreign_key "compaigns", "titles"
   add_foreign_key "followups", "compaigns"
-  add_foreign_key "generated_emails", "leads"
-  add_foreign_key "generated_emails", "services"
-  add_foreign_key "leads", "compaigns"
+  add_foreign_key "leads", "countries"
+  add_foreign_key "leads", "platforms"
+  add_foreign_key "leads", "titles"
+  add_foreign_key "processed_leads", "compaigns"
+  add_foreign_key "processed_leads", "leads"
   add_foreign_key "services", "businesses"
 end

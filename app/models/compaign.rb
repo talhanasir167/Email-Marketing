@@ -1,18 +1,18 @@
 class Compaign < ApplicationRecord
-  validates :leads_count, :scheduled_at, presence: true
+  validates :email_subject, :email_body, :leads_count, :scheduled_at, presence: true
 
-  belongs_to :business
   belongs_to :business_email
-  belongs_to :country
-  belongs_to :title
   belongs_to :service
-  belongs_to :platform
-  has_many :leads, dependent: :destroy
   has_many :followups, dependent: :destroy
+  has_many :processed_leads, dependent: :destroy
 
   accepts_nested_attributes_for :followups, reject_if: :all_blank, allow_destroy: true
 
   validate :max_followups_limit
+
+  def business
+    service.business
+  end
 
   private
 
