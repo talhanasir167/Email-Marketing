@@ -1,7 +1,8 @@
 class Lead < ApplicationRecord
-  validates :email, presence: true
-  validates :active, inclusion: { in: [true, false] }
+  validates :name, :email, presence: true
+  validates :email, uniqueness: true
 
-  has_many :generated_emails, dependent: :destroy
-  belongs_to :compaign
+  belongs_to :country
+  belongs_to :title
+  belongs_to :platform
 end

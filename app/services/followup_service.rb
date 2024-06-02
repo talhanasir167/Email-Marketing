@@ -11,8 +11,8 @@ class FollowupService
   end
 
   def process_followups
-    GeneratedEmail.followup_emails(@compaign.business, @compaign.leads).each do |generated_email|
-      params = followup_params(generated_email)
+    @compaign.processed_leads.where(active: true).includes(:lead).each do |processed_lead|
+      params = followup_params(processed_lead)
 
       FollowupEmailWorker.perform_in((DateTime.now + rand(TIME_SPAN).minutes).to_datetime, params)
     end
@@ -22,14 +22,15 @@ class FollowupService
 
   private
 
-  def followup_params(generated_email)
+  def followup_params(processed_lead)
     {
-      'email' => generated_email.email,
-      'subject' => generated_email.subject,
+      'followup_id' => @followup.id,
+      'email' => processed_lead.lead.email,
+      'subject' => processed_lead.email_subject,
       'sender_email' => sender_email,
-      'message_id' => generated_email.message_id,
-      'body' => followup_body(generated_email.lead.name),
-      'business' => @compaign.business.id
+      'message_id' => processed_lead.message_id,
+      'followup_body' => followup_body(processed_lead.lead.name),
+      'business_id' => @compaign.business.id
     }
   end
 

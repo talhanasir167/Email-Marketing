@@ -20,24 +20,14 @@
     <div class="col">Email</div>
     <div class="col">Email Subject</div>
     <div class="col">Status</div>
-    <div class="col">Update Status</div>
   </div>
-  <% @compaign.leads.includes(:generated_emails) .each do |lead| %>
-    <%= turbo_frame_tag "edit_lead_#{lead.id}_frame" do %>
-      <%= render 'shared/toast_notification' %>
-      <%= render "shared/error_messages", object: lead %>
-      <div class="row py-1 border-bottom m-0">
-        <div class="col"><%= lead.name %></div>
-        <div class="col"><%= lead.email %></div>
-        <div class="col">
-          <% if lead.generated_emails.exists? %>
-            <%= lead.generated_emails.pluck(:subject).join %>
-          <% end %>
-        </div>
-        <div class="col"><%= lead.active ? 'Active' : 'Inactive' %></div>
-        <div class="col"><%= link_to "Edit this lead", edit_lead_path(lead) %></div>
-      </div>
-    <% end %>
+  <% @compaign.processed_leads.includes(:lead) .each do |p_lead| %>
+    <div class="row py-1 border-bottom m-0">
+      <div class="col"><%= p_lead.lead.name %></div>
+      <div class="col"><%= p_lead.lead.email %></div>
+      <div class="col"><%= p_lead.email_subject %></div>
+      <div class="col"><%= p_lead.active ? 'Active' : 'Inactive' %></div>
+    </div>
   <% end %>
 </div>
 

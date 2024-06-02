@@ -1,22 +1,22 @@
 require 'csv'
 class CompaignsController < ApplicationController
   before_action :set_compaign, only: %i[show edit update destroy]
-  before_action :set_business, only: %i[new create]
   before_action :set_followup, :previous_followups_sent?, only: %i[followup]
 
   def show; end
 
   def new
-    @compaign = @business.compaigns.new
+    @business = Business.find(params[:business_id])
+    @compaign = Compaign.new
     @compaign.followups.build
   end
 
   def create
-    @compaign = @business.compaigns.new(compaign_params)
-
+    @compaign = Compaign.new(compaign_params)
     if validate_csv_headers(params[:compaign][:csv_file]) && @compaign.save
-      CompaignsProcessingService.new({ compaign: @compaign, csv_file: params[:compaign][:csv_file] }).call!
-      redirect_to @compaign, notice: 'compaign was successfully created and is processed'
+      CompaignsProcessingService.new({ compaign: @compaign, csv_file: params[:compaign][:csv_file],
+                                       lead_params: }).call!
+      redirect_to @compaign, notice: 'compaign was successfully created and is being processed'
     else
       render :new, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class CompaignsController < ApplicationController
   end
 
   def followup
-    if FollowupService.new(@followup).call!
+    if !@followup.sent && FollowupService.new(@followup).call!
       redirect_to @followup.compaign, notice: 'Follow-up emails were successfully sent'
     else
       redirect_to @followup.compaign, alert: 'Problem sending follow-up emails'
@@ -56,12 +56,12 @@ class CompaignsController < ApplicationController
   end
 
   def compaign_params
-    params.require(:compaign).permit(:business_email_id, :service_id, :platform_id, :title_id, :country_id, :scheduled_at,
+    params.require(:compaign).permit(:business_email_id, :service_id, :scheduled_at, :email_subject, :email_body,
                                      followups_attributes: %i[id _destroy sent_at content])
   end
 
-  def set_business
-    @business = Business.find(params[:business_id])
+  def lead_params
+    params.require(:compaign).permit('title_id', 'country_id', 'platform_id')
   end
 
   def previous_followups_sent?
@@ -72,7 +72,7 @@ class CompaignsController < ApplicationController
   end
 
   def validate_csv_headers(file)
-    require_headers = %w[Name Email Subject Body]
+    require_headers = %w[Name Email]
 
     CSV.foreach(file, headers: true) do |row|
       missing_headers = require_headers - row.headers
