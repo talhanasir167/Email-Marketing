@@ -2,6 +2,7 @@
 
 class ScheduleEmailWorker
   include Sidekiq::Worker
+
   sidekiq_options queue: 'mailers'
 
   def perform(params)
