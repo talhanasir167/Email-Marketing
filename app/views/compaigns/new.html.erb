@@ -5,19 +5,50 @@
     <%= form_with(model: @compaign, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %>
       <%= render "shared/error_messages", object: @compaign %>
 
-      <div class="mb-3">
-        <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
-        <%= form.text_field :business_id, value: @business.name, class: 'form-control', readonly: true %>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
+            <%= form.text_field :business_id, value: @business.name, class: 'form-control', readonly: true %>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <%= form.label :business_email, class: 'form-label text-muted' %><br />
+            <%= form.select :business_email_id, @business.business_emails.all.pluck(:email, :id), {}, class: "form-select" %>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <%= form.label :service, class: 'form-label text-muted' %><br />
+            <%= form.select :service_id, @business.services.all.pluck(:name, :id), {}, class: "form-select" %>
+          </div>
+        </div>
       </div>
 
-      <div class="mb-3">
-        <%= form.label :business_email, class: 'form-label text-muted' %><br />
-        <%= form.select :business_email_id, @business.business_emails.all.pluck(:email, :id), {}, class: "form-select" %>
-      </div>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <%= form.label :title, class: 'form-label text-muted' %><br />
+            <%= form.select :title_id, Title.all.pluck(:name, :id), {}, class: "form-select" %>
+          </div>
+        </div>
 
-      <div class="mb-3">
-        <%= form.label :service, class: 'form-label text-muted' %><br />
-        <%= form.select :service_id, @business.services.all.pluck(:name, :id), {}, class: "form-select" %>
+        <div class="col">
+          <div class="mb-3">
+            <%= form.label :platform, class: 'form-label text-muted' %><br />
+            <%= form.select :platform_id, Platform.all.pluck(:name, :id), {}, class: "form-select" %>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="mb-3">
+            <%= form.label :country, class: 'form-label text-muted' %><br />
+            <%= form.select :country_id, Country.all.pluck(:name, :id), {}, class: "form-select" %>
+          </div>
+        </div>
       </div>
 
       <div class="mb-3">
@@ -27,22 +58,7 @@
 
       <div class="mb-3">
         <%= form.label :email_body, class: 'form-label text-muted' %><br />
-        <%= form.text_area :email_body, class: 'form-control', required: true %>
-      </div>
-
-      <div class="mb-3">
-        <%= form.label :title, class: 'form-label text-muted' %><br />
-        <%= form.select :title_id, Title.all.pluck(:name, :id), {}, class: "form-select" %>
-      </div>
-
-      <div class="mb-3">
-        <%= form.label :platform, class: 'form-label text-muted' %><br />
-        <%= form.select :platform_id, Platform.all.pluck(:name, :id), {}, class: "form-select" %>
-      </div>
-
-      <div class="mb-3">
-        <%= form.label :country, class: 'form-label text-muted' %><br />
-        <%= form.select :country_id, Country.all.pluck(:name, :id), {}, class: "form-select" %>
+        <%= form.text_area :email_body, size: "70x10", class: 'form-control', required: true %>
       </div>
 
       <template data-nested-form-target="template">

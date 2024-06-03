@@ -4,19 +4,27 @@
   <%= form_with(model:@compaign, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' } ) do |form| %>
     <%= render "shared/error_messages", object: @compaign %>
 
-    <div class="mb-3">
-      <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
-      <%= form.text_field :business_id, value: @compaign.business.name, class: 'form-control', readonly: true %>
-    </div>
+    <div class="row">
+      <div class="col">
+        <div class="mb-3">
+          <label for="business_id" class="form-label text-muted"><%= form.label :business_id %></label>
+          <%= form.text_field :business_id, value: @compaign.business.name, class: 'form-control', readonly: true %>
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="business_email_id" class="form-label text-muted"><%= form.label :business_email_id %></label>
-      <%= form.text_field :business_email, value: @compaign.business_email.email, class: 'form-control', readonly: true %>
-    </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="business_email_id" class="form-label text-muted"><%= form.label :business_email_id %></label>
+          <%= form.text_field :business_email, value: @compaign.business_email.email, class: 'form-control', readonly: true %>
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <%= form.label :service, class: 'form-label text-muted' %><br />
-      <%= form.text_field :serivce_id, value: @compaign.service.name, class: 'form-control', readonly: true %>
+      <div class="col">
+        <div class="mb-3">
+          <%= form.label :service, class: 'form-label text-muted' %><br />
+          <%= form.text_field :serivce_id, value: @compaign.service.name, class: 'form-control', readonly: true %>
+        </div>
+      </div>
     </div>
 
     <%= form.fields_for :followups do |followup_fields| %>
